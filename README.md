@@ -381,7 +381,10 @@ StudyStack’s accessibility implementation satisfies the Code Institute Level 5
 
 ## Accessibility Breakdown
 
-StudyStack follows a user-centred, inclusive design philosophy in line with both [WCAG 2.1 AA](https://www.w3.org/TR/WCAG21/) standards and the Code Institute Level 5 specification for _Interactive Front-End Development_.
+StudyStack follows a user-centred, inclusive design philosophy in line with
+[WCAG 2.1 AA](https://www.w3.org/TR/WCAG21/) standards and the Code Institute Level 5 specification for _Interactive Front-End Development_.
+
+Accessibility considerations were applied throughout the design and development process, covering layout, navigation, interaction, and content presentation.
 
 ### Design & Layout
 
