@@ -109,7 +109,7 @@ if "test" in sys.argv:
 
 
 # CSRF
-CSRF_TRUSTED_DOMAINS = ["https://*.codeinstitute-ide.net/", "https://*.herokuapp.com"]
+CSRF_TRUSTED_ORIGINS = ["https://*.codeinstitute-ide.net/", "https://*.herokuapp.com"]
 
 
 # Password validation
