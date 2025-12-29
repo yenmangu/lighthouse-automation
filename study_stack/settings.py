@@ -29,17 +29,18 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if os.environ.get("SECRET_KEY"):
-    SECRET_KEY = os.environ.get("SECRET_KEY")
-else:
+
+# Check if is Heroku
+IS_HEROKU_APP = "DYNO" in os.environ and "CI" not in os.environ
+
+SECRET_KEY = os.environ.get("SECRET_KEY")
+if IS_HEROKU_APP and not SECRET_KEY:
+    raise ValueError("SECRET_KEY must be set in production")
+
+if not SECRET_KEY:
     SECRET_KEY = "django-insecure-81+2!9qmoq61ogkt52vau-7bwv8=fr7@&&a*s8$-%y%5&hy8yl"
 
-# SECURITY WARNING: don't run with debug turned on in production!
-IS_HEROKU_APP = "DYNO" in os.environ and "CI" not in os.environ
-if IS_HEROKU_APP:
-    DEBUG = False
-else:
-    DEBUG = True
+DEBUG = not IS_HEROKU_APP
 
 
 ALLOWED_HOSTS = [".herokuapp.com", "127.0.0.1"]
@@ -63,8 +64,6 @@ INSTALLED_APPS = [
 ]
 
 SITE_ID = 1
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -96,6 +95,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "study_stack.wsgi.application"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
 # Database
@@ -129,6 +131,18 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+# Allauth defaults
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_LOGIN_METHODS = {"username"}
+ACCOUNT_SIGNUP_FIELDS = ["username*", "password1*", "password2*"]
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 
 # Internationalization
