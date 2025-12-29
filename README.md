@@ -371,6 +371,9 @@ You can override this in your environment if running your own version.
 
 ### Local VS Deployment
 
+> [!NOTE]
+> The application distinguishes between local development, remote development, and Heroku production using environment variables provided by the hosting platform.
+
 ## Browser Compatibility
 
 ## Accessibility
