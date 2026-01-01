@@ -2,6 +2,8 @@ core.Microsoft*
 core.mongo*
 core.python*
 env.py
+env*.py
+*env*.py
 __pycache__/
 *.py[cod]
 node_modules/
@@ -14,3 +16,4 @@ cloudinary_python.txt
 **/._*
 ./._*
 ._*
+resources/fixtures
