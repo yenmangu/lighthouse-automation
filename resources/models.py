@@ -1,4 +1,5 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import User
 
 
@@ -46,6 +47,8 @@ class Resource(models.Model):
         related_name="resources",
     )
     description = models.TextField()
+    featured_image = CloudinaryField("image", default="placeholder")
+    resource_link = models.URLField(null=True)
     subjects = models.ManyToManyField(
         Subject, related_name="all_resources", through=SubjectResourceJoin
     )

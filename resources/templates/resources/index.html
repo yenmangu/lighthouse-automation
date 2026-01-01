@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+  {% load static %}
+  <div class="container-fluid">
+    {% for r in resources %}
+      <div class="row mt-2">
+        <div class="col-md-4">
+          {% if 'placeholer' in resource.featured_image.url %}
+            <img src="{% static 'images/default.jpg' %}"
+                 alt="placeholder image"
+                 class="card-img-top">
+          {% else %}
+            <img src="{{ post.featured_image.url }}"
+                 alt="{{ resoourceqqqqqq.title }}"
+                 class="card-img-top">
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <div class="card-title">{{ resource.title }}</div>
+          <div class="card-description">{{ resource.description }}</div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="row mt-2">
+        <div class="col-md-4">
+          <p>No resources to show</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock content %}
