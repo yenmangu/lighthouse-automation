@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block content %}
+  {% load static %}
+  {% load crispy_forms_tags %}
+  <div class="container my-4">
+    <div class="row">
+      <div class="col-12 col-lg-8 mx-auto">
+        <article class="card">
+          <div class="card-body">
+            <!-- Resource Title -->
+            <header class="mb-3">
+              <h1 class="card-title">{{ resource.title }}</h1>
+              {% if resource.created_on %}<p class="text-muted mb-0">Added on {{ resource.created_on|date:"j F Y" }}</p>{% endif %}
+            </header>
+            <!-- Resource Description -->
+            {% if resource.description %}
+              <section class="mb-4">
+                <p>{{ resource.description }}</p>
+              </section>
+            {% endif %}
+            <!-- Resource Metadata -->
+            <section class="mb-4">
+              <dl>
+                {% if resource.resource_type %}
+                  <div>
+                    <dt>Type</dt>
+                    <dd>
+                      {{ resource.resource_type.name }}
+                    </dd>
+                  </div>
+                {% endif %}
+                {% if resource.subjects.exists %}
+                  <div>
+                    <dt>Subjects</dt>
+                    <dd>
+                      {% for subject in resource.subjects.all %}
+                        <a href="{% url 'subject_resource_list' subject.slug %}">
+                          <span>{{ subject.name }}</span>
+                        </a>
+                        {% if not forloop.last %},{% endif %}
+                      {% endfor %}
+                    </dd>
+                  </div>
+                {% endif %}
+                {% if resource.author %}
+                  <div>
+                    <dt>Author</dt>
+                    <dd>
+                      {{ resource.author }}
+                    </dd>
+                  </div>
+                {% endif %}
+              </dl>
+            </section>
+            <!-- Primary Action -->
+            {% if resource.url %}
+              <section class="mb-4">
+                <a href="{{ resource.url }}"
+                   class="btn btn-primary"
+                   target="_blank"
+                   rel="noopener noreferrer">View Resource</a>
+              </section>
+            {% endif %}
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="masthead">
+    <div class="container">
+      <div class="row g-3 ">
+        <div class="d-none d-md-block col-4 masthead__image">
+          {% if 'placeholder' in resource.featured_image.url %}
+            <img class="card-img-top" src="{% static 'images/default.jpg' %}" alt="placeholder image">
+          {% else %}
+            <img class="card-img-top" src="{{ resource.featured_image.url }}" alt="{{ resource.title }}">
+          {% endif %}
+        </div>
+        <div class="col-8 masthead__text" style="border: 2px solid green">
+          <h1 class="resource-title">{{ resource.title }}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 card mb-4 mt-3">
+    <div class="card-body">
+      {% if user.is_authenticated %}
+        <h3>Leave a comment:</h3>
+        <p>Commenting as: {{ user.username }}</p>
+        <form id="commentForm" method="post">
+          {{ comment_form | crispy }}
+          {% csrf_token %}
+          <button id="submitButton" type="submit" class="btn btn-signup btn-lg">Submit</button>
+        </form>
+      {% else %}
+        <p>Log in to leave a comment</p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="masthead">
+    <div class="container">
+      <div class="row g-0">
+        <div class="d-none d-md-block col-md-6 masthead-image">
+          {% if "placeholder" in resource.featured_image.url %}
+            <img class="card-img-top" src="{% static 'images/default.jpg' %}" alt="placeholder image">
+          {% else %}
+            <img class="card-img-top" src="{{ resource.featured_image.url }}" alt="{{ resource.title }}">
+          {% endif %}
+        </div>
+        <div class="col-md-4 card mb-4 mt-3">
+          <div class="card-body">
+            {% if user.is_authenticated %}
+              <h3>Leave a comment:</h3>
+              <p>Commenting as: {{ user.username }}</p>
+              <form id="commentForm" method="post">
+                {{ comment_form | crispy }}
+                {% csrf_token %}
+                <button id="submitButton" type="submit" class="btn btn-signup btn-lg">Submit</button>
+              </form>
+            {% else %}
+              <p>Log in to leave a comment</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+{% endblock content %}
