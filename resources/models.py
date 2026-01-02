@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 STATUS = ((0, "Draft"), (1, "Published"))
+STATUS_CHOICES = {
+    "d": "Draft",
+    "p": "Published",
+    "w": "Withdrawn",
+}
 
 
 # ResourceSubject 'join' table included for greater control
@@ -52,7 +57,7 @@ class Resource(models.Model):
     subjects = models.ManyToManyField(
         Subject, related_name="all_resources", through=SubjectResourceJoin
     )
-    status = models.IntegerField(choices=STATUS, default=0)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="d")
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
