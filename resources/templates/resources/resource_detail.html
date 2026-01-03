@@ -34,7 +34,7 @@
                     <dt>Subjects</dt>
                     <dd>
                       {% for subject in resource.subjects.all %}
-                        <a href="{% url 'subject_resource_list' subject.slug %}">
+                        <a href="{% url 'resources:subject_resource_list' subject.slug %}">
                           <span>{{ subject.name }}</span>
                         </a>
                         {% if not forloop.last %},{% endif %}

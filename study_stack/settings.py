@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "django_summernote",
     "cloudinary",
+    "view_breadcrumbs",
     "home",
     "resources",
 ]

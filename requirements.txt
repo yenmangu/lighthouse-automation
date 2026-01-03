@@ -1,10 +1,14 @@
 asgiref==3.11.0
 bleach==6.3.0
+certifi==2025.11.12
+charset-normalizer==3.4.4
 click==8.3.1
+cloudinary==1.44.1
 colorama==0.4.6
 crispy-bootstrap5==2025.6
 cssbeautifier==1.15.4
 dj-database-url==3.0.1
+dj3-cloudinary-storage==0.0.6
 Django==6.0
 django-allauth==65.13.1
 django-crispy-forms==2.5
@@ -12,6 +16,7 @@ django-summernote==0.8.20.0
 djlint==1.36.4
 EditorConfig==0.17.1
 gunicorn==23.0.0
+idna==3.11
 jsbeautifier==1.15.4
 json5==0.12.1
 packaging==25.0
@@ -19,8 +24,10 @@ pathspec==0.12.1
 psycopg2==2.9.11
 PyYAML==6.0.3
 regex==2025.11.3
+requests==2.32.5
 six==1.17.0
 sqlparse==0.5.5
 tqdm==4.67.1
+urllib3==2.6.2
 webencodings==0.5.1
 whitenoise==6.11.0

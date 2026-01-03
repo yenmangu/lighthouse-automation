@@ -1,20 +1,27 @@
 from django.urls import path
-from . import views
+from .views import ResourceDetail, ResourceList, SubjetResourceListView
+
+app_name = "resources"
 
 urlpatterns = [
     path(
         "",
-        views.ResourceList.as_view(),
-        name="home",
+        ResourceList.as_view(),
+        name=ResourceList.list_view_name,
     ),
     path(
         "resources/<slug:slug>/",
-        views.ResourceDetail.as_view(),
-        name="resource_detail",
+        ResourceDetail.as_view(),
+        name=ResourceDetail.detail_view_name,
     ),
+    # path(
+    #     "subjects/",
+    #     views.<view>.as_view(),
+    #     name="all_subjects",
+    # ),
     path(
         "subjects/<slug:slug>/",
-        views.SubjetResourceListView.as_view(),
+        SubjetResourceListView.as_view(),
         name="subject_resource_list",
     ),
 ]

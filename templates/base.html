@@ -1,5 +1,6 @@
 {% load static %}
-{% url 'home' as home_url %}
+{% load view_breadcrumbs %}
+{% url 'resources:resource_list' as home_url %}
 {% url 'account_login' as login_url %}
 {% url 'account_signup' as signup_url %}
 {% url 'account_logout' as logout_url %}
@@ -36,6 +37,7 @@
           crossorigin="anonymous">
     <!-- FontAwesome CSS -->
     <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block extra_css %}
     {% endblock extra_css %}
   </head>
@@ -43,7 +45,7 @@
     <!-- Nav -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}">StudyStack</a>
+        <a class="navbar-brand" href="{% url 'resources:resource_list' %}">StudyStack</a>
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
@@ -77,6 +79,9 @@
         </div>
       </div>
     </nav>
+    {% block breadcrumbs %}
+      {% render_breadcrumbs %}
+    {% endblock breadcrumbs %}
     <main class="container my-4">
       {% block content %}
       {% endblock content %}
