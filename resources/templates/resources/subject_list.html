@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+  {% load static %}
+  <div class="container-fluid">
+    {% for subject in subject_list %}
+      <div class="row my-2">
+        <div class="h3">
+          <a href="{% url 'resources:subject_resource_list' subject.slug %}">{{ subject.name }}</a>
+          {{ subject.name }}
+        </div>
+      </div>
+    {% empty %}
+    {% endfor %}
+  </div>
+{% endblock content %}

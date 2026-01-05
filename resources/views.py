@@ -57,6 +57,16 @@ class ResourceDetail(
         return resource
 
 
+class SubjectsList(ListBreadcrumbMixin, generic.ListView):
+    model = Subject
+    template_name = "resources/subject_list.html"
+    context_object_name = "subject_list"
+
+    def get_queryset(self, **kwargs):
+        subject_list = super().get_queryset()
+        return subject_list
+
+
 class SubjetResourceListView(
     ListBreadcrumbMixin,
     generic.ListView,
