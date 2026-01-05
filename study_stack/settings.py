@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "django_summernote",
     "cloudinary",
     "view_breadcrumbs",
+    "core.apps.CoreConfig",
     "home",
     "resources",
 ]
