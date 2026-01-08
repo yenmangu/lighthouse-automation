@@ -109,7 +109,7 @@ class ResourceDetail(
         Returns:
             QuerySet: Published :model:`resources.Resource` objects only.
         """
-        resource = Resource.objects.filter(status="p")
+        resource = Resource.objects.filter(status="p").order_by("-created_on")
 
         return resource
 
