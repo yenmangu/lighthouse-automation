@@ -1,5 +1,11 @@
 from django.urls import path
-from .views import ResourceDetail, ResourceList, SubjectsList, SubjetResourceListView
+from .views import (
+    ResourceDetail,
+    ResourceList,
+    SubjectsList,
+    SubjetResourceListView,
+    CreateResource,
+)
 
 app_name = "resources"
 
@@ -28,5 +34,10 @@ urlpatterns = [
         "subjects/<slug:slug>/",
         SubjetResourceListView.as_view(),
         name="subject_resource_list",
+    ),
+    path(
+        "create/",
+        CreateResource.as_view(),
+        name=CreateResource.create_view_name,
     ),
 ]

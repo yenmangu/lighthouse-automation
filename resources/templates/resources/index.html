@@ -1,7 +1,32 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-  <div class="container-fluid">
+  <div class="container-fluid container__index--top">
+    <div class="row mt-2">
+      <div class="col col-md-4">
+        <h1>StudyStack</h1>
+        <div class="tagline">
+          <p>Learn better. Share smarter. Study together.</p>
+        </div>
+      </div>
+      <div class="col col-md-8">
+        <div class="mission-statement">
+          <p>
+            StudyStack is a community-powered platform where students share and discover study resources designed to support real learning, not just quick answers.
+          </p>
+          <p>
+            From revision notes and guides to curated references and learning tools, StudyStack brings together resources created by students for students. Whether you are revising for an exam or exploring a new subject, you can find material shaped by real study experiences.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 cta">
+      <div class="col-12">
+        Discover the latest resources below, or <a href="{% url 'resources:subject_list' %}"><span>explore by subject.</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid resource-list">
     {% for resource in resource_list %}
       <div class="row mt-2">
         <div class="col-md-4">

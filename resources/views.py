@@ -1,12 +1,18 @@
 from typing import Any
 from django.http import HttpRequest, HttpResponseRedirect
+from django import forms
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
 from django.contrib import messages
-from view_breadcrumbs import ListBreadcrumbMixin, DetailBreadcrumbMixin
+from tinymce.widgets import TinyMCE
+from view_breadcrumbs import (
+    ListBreadcrumbMixin,
+    DetailBreadcrumbMixin,
+    CreateBreadcrumbMixin,
+)
 from .models import Resource, Subject
-from .forms import CommentForm
+from .forms import CommentForm, ResourceForm
 
 # Create your views here.
 
@@ -149,7 +155,7 @@ class ResourceDetail(
 
             messages.add_message(request, messages.SUCCESS, "Comment submitted!")
             return HttpResponseRedirect(
-                reverse("resource_detail", kwargs={"slug": self.object.slug})
+                reverse("resources:resource_detail", kwargs={"slug": self.object.slug})
             )
         context = self.get_context_data(comment_form=comment_form)
         return self.render_to_response(context)
@@ -168,7 +174,7 @@ class ResourceDetail(
         """
         context = super().get_context_data(**kwargs)
 
-        context["comments"] = self.object.comments.filter(approved=True)
+        context["comments"] = self.object.comments.filter()
         context.setdefault("comment_form", CommentForm())
 
         return context
@@ -304,3 +310,12 @@ class SubjetResourceListView(
         context = super().get_context_data(**kwargs)
         context["subject"] = self.subject
         return context
+
+
+class CreateResource(
+    generic.CreateView,
+    CreateBreadcrumbMixin,
+):
+    model = Resource
+    form_class = ResourceForm
+    template_name = "resources/resource_create.html"
