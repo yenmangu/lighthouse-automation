@@ -8,11 +8,15 @@ colorama==0.4.6
 crispy-bootstrap5==2025.6
 cssbeautifier==1.15.4
 dj-database-url==3.0.1
+dj-svg==0.3.1
 dj3-cloudinary-storage==0.0.6
 Django==6.0
 django-allauth==65.13.1
 django-crispy-forms==2.5
+django-referrer-policy==1.0
 django-summernote==0.8.20.0
+django-tinymce==5.0.0
+django-view-breadcrumbs==2.5.1
 djlint==1.36.4
 EditorConfig==0.17.1
 gunicorn==23.0.0
