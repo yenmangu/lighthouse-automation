@@ -40,8 +40,9 @@ if IS_HEROKU_APP and not SECRET_KEY:
 
 if not SECRET_KEY:
     SECRET_KEY = "django-insecure-81+2!9qmoq61ogkt52vau-7bwv8=fr7@&&a*s8$-%y%5&hy8yl"
-if not IS_HEROKU_APP:
-    TINY_MCE_KEY = os.environ.get("TINY_MCE_API_KEY")
+
+TINY_MCE_KEY = os.environ.get("TINY_MCE_KEY")
+
 
 DEBUG = not IS_HEROKU_APP
 
@@ -156,6 +157,27 @@ LOGOUT_REDIRECT_URL = "/"
 
 REFERRER_POLICY = "origin"
 
+# TinyMCE
+TINYMCE_JS_URL = f"https://cdn.tiny.cloud/1/{TINY_MCE_KEY}/tinymce/8/tinymce.min.js"
+TINYMCE_COMPRESSOR = False
+
+
+TINYMCE_DEFAULT_CONFIG = {
+    "theme": "silver",
+    "height": 500,
+    "menubar": False,
+    "plugins": "advlist,autolink,lists,link,charmap,print,preview,anchor,"
+    "searchreplace,visualblocks,code,fullscreen,insertdatetime,paste,"
+    "code,help,wordcount",
+    "toolbar": "undo redo | formatselect | "
+    "bold italic backcolor | alignleft aligncenter "
+    "alignright alignjustify | bullist numlist outdent indent | "
+    "removeformat | help",
+}
+# SVG directories
+# SVG_DIRS = os.path.join(STATICFILES_DIRS, "svg")
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
@@ -179,22 +201,3 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-TINYMCE_JS_URL = f"https://cdn.tiny.cloud/1/{TINY_MCE_KEY}/tinymce/8/tinymce.min.js"
-TINYMCE_COMPRESSOR = False
-
-
-TINYMCE_DEFAULT_CONFIG = {
-    "theme": "silver",
-    "height": 500,
-    "menubar": False,
-    "plugins": "advlist,autolink,lists,link,charmap,print,preview,anchor,"
-    "searchreplace,visualblocks,code,fullscreen,insertdatetime,paste,"
-    "code,help,wordcount",
-    "toolbar": "undo redo | formatselect | "
-    "bold italic backcolor | alignleft aligncenter "
-    "alignright alignjustify | bullist numlist outdent indent | "
-    "removeformat | help",
-}
-# SVG directories
-# SVG_DIRS = os.path.join(STATICFILES_DIRS, "svg")
