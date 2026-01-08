@@ -1,0 +1,236 @@
+/* Global */
+
+body {
+	background-color: #f9fafc;
+}
+
+/* Remove default link styling for cards wrapped in anchor tags */
+.card-link,
+.card-body,
+.card-text {
+	text-decoration: none;
+	color: var(--bs-card-color);
+}
+
+.brand {
+	font-family: Lato, sans-serif;
+	font-size: 1.4rem;
+	font-weight: 700;
+	color: #4a4a4f;
+}
+
+.red-o {
+	color: #e84610;
+}
+
+.thin {
+	font-weight: 300;
+}
+
+.light-bg {
+	background-color: #fff;
+}
+
+.dark-bg {
+	background-color: #445261;
+}
+
+.main-bg {
+	background-color: #f9fafc;
+}
+
+/* ------------------- Index ------------------ */
+
+.container__index--top {
+	border: 2px solid greenyellow;
+}
+
+.container__index--top .row {
+	height: 100%;
+}
+
+.container__index--top .col:first-child {
+	justify-content: stretch;
+	border: 1px solid red;
+}
+
+.container__index--top .col {
+	display: flex;
+	flex-direction: column;
+	/* align-items: end; */
+	/* justify-content: flex-end; */
+}
+
+.container__index--top h1 {
+	margin-bottom: 0;
+	margin-block-end: 0;
+}
+
+.tagline p {
+	margin-block-end: 0;
+}
+
+.card {
+	/* border: none; */
+	background-color: transparent;
+}
+
+.image__container {
+	position: relative;
+}
+
+.image__flash {
+	position: absolute;
+	bottom: 5%;
+	min-width: 30%;
+	left: -2px;
+	background-color: #188181;
+}
+
+.scale {
+	width: 100%;
+	height: auto;
+}
+
+.author {
+	color: white;
+	margin: 4px;
+	text-transform: uppercase;
+}
+
+.masthead {
+	margin-top: 10px;
+	overflow: hidden;
+	position: relative;
+	display: inline-block;
+	height: 33vh;
+	width: 100%;
+}
+
+.masthead__text {
+	background-color: #445261;
+	color: white;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.masthead__image {
+	position: relative;
+	overflow: hidden;
+}
+
+.masthead__image:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 90%;
+	height: 100%;
+	width: 150%;
+	background: #445261;
+	-webkit-transform: skew(15deg);
+	-moz-transform: skew(15deg);
+	transform: skew(15deg);
+	z-index: 100;
+}
+
+.profile__image {
+	width: 75%;
+}
+
+.resource__link {
+	text-decoration: none;
+	color: #445261;
+}
+
+.resource__link:hover,
+.page-link {
+	color: #e84610;
+}
+
+.resource__title {
+	margin-top: 10%;
+	margin-left: 5%;
+}
+
+.resource__subtitle {
+	margin-left: 5%;
+	color: lightgray;
+}
+
+.btn-signup,
+.btn-edit {
+	background-color: #188181;
+	color: #fff;
+}
+
+.btn-signup:hover,
+.btn-signup:active {
+	background-color: #fff;
+	color: #23bbbb;
+}
+
+.link {
+	color: #23bbbb;
+	text-decoration: none;
+}
+
+.link:hover,
+.link:active {
+	color: #445261;
+	text-decoration: underline;
+}
+
+.btn-like {
+	color: #e84610;
+	border: none;
+	background: transparent;
+}
+
+.btn-delete {
+	color: #fff;
+	background: #e84610;
+	border: 2px solid #e84610;
+}
+
+.btn-like:hover,
+.btn-like:active {
+	color: #e84610;
+	background: transparent;
+	border: none;
+}
+
+.faded {
+	color: rgb(172, 175, 175);
+}
+
+.approval {
+	color: rgb(222, 146, 168);
+}
+
+form#CommentForm {
+	margin-top: 1.3em;
+}
+
+/* ------------------- Cards ------------------ */
+.card-link .card-title {
+	text-decoration: underline;
+	color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+}
+
+/* ----------------- Comments ----------------- */
+
+/* ----------------- Svg style ---------------- */
+
+.svg-icon--hover {
+	display: none;
+}
+
+.icon-btn:hover .svg-icon--default {
+	display: none;
+}
+
+.icon-btn:hover .svg-icon--hover {
+	display: inline-block;
+}
