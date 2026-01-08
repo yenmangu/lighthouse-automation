@@ -174,6 +174,25 @@ The table below outlines the features implemented in **StudyStack**, mapped to t
 
 #### Key References
 
+## Database Design
+
+StudyStack uses a relational database to store study resources submitted by users.
+The database design focuses on supporting core functionality such as browsing recent resources, categorisation by subject and type, and user attribution.
+
+The primary entities in the system are:
+
+- **User** – represents registered users who can submit study resources.
+- **Resource** – represents an individual study resource shared on the platform.
+- **ResourceType** – categorises resources by format (e.g. PDF, video, article).
+- **Subject** – categorises resources by topic area.
+
+A user can submit multiple resources, while each resource is associated with a single user, subject, and resource type.
+This structure avoids data duplication and supports future filtering and browsing features.
+
+A detailed Entity Relationship Diagram (ERD) and full database explanation can be found in the project documentation:
+
+[View Database Design Documentation](documentation/database-design.md)
+
 ## Architecture
 
 > StudyStack is architected as a modular, component-driven application, using Django for templating and Bootstrap for responsive design. The application’s structure is deliberately organised to maximise maintainability, reusability, and testability—enabling future features and team development.

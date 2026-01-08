@@ -55,11 +55,6 @@ class ResourceList(
         """
         Extend the template context for the resource list page.
 
-        This method currently prints the full context for debugging and extracts
-        the ``page_obj`` (pagination) object. No additional keys are added yet,
-        but this hook is the correct place to inject extra homepage context
-        later (for example: hero copy, featured subjects, or site statistics).
-
         Args:
             **kwargs: Additional context provided by Django.
 
@@ -67,9 +62,7 @@ class ResourceList(
             dict: Context dictionary passed to the template.
         """
         context = super().get_context_data(**kwargs)
-        print(f"context: {context}")
         page_obj = context.get("page_obj")
-
         return context
 
 

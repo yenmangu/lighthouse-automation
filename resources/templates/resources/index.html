@@ -30,14 +30,16 @@
     {% for resource in resource_list %}
       <div class="row mt-2">
         <div class="col-md-4">
-          {% if 'placeholder' in resource.featured_image.url %}
-            <img src="{% static 'images/default.jpg' %}"
-                 alt="placeholder image"
-                 class="card-img-top">
-          {% else %}
-            <img src="{{ resource.featured_image.url }}"
-                 alt="{{ resource.title }}"
-                 class="card-img-top">
+          {% if resource.featured_image %}
+            {% if 'placeholder' in resource.featured_image.url %}
+              <img src="{% static 'images/default.jpg' %}"
+                   alt="placeholder image"
+                   class="card-img-top">
+            {% else %}
+              <img src="{{ resource.featured_image.url }}"
+                   alt="{{ resource.title }}"
+                   class="card-img-top">
+            {% endif %}
           {% endif %}
         </div>
         <div class="col-md-8">
