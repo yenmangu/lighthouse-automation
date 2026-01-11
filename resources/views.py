@@ -47,12 +47,47 @@ class ResourceList(
 
     **Template**
     :template:`resources/index.html`
+
+    **Visibility rules:**
+    - Anonymous users: published only
+    - Authenticated users: published + their own drafts - NOT withdrawn
+    - Superusers: all statuses, including withdrawn
     """
 
     model = Resource
     template_name = "resources/index.html"
     paginate_by = 6
     add_home = False
+
+    def get_queryset(self):
+        """
+        Return a queryset of Resources visible to the current user.
+
+        Visibility rules:
+        - Anonymous users may view published resources only.
+        - Authenticated users may view:
+            * all published resources
+            * their own draft resources
+        - Superusers may view all resources, regardless of status.
+
+        This is implemented using Q objects to express OR conditions safely,
+        ensuring that draft resources are never exposed to non-authors.
+        """
+        base_queryset = (
+            Resource.objects.all().select_related("author").prefetch_related("subjects")
+        )
+        user = self.request.user
+
+        if user.is_superuser:
+            return base_queryset.order_by("-created_on")
+
+        if user.is_authenticated:
+            visible_queryset = base_queryset.filter(
+                Q(status="p") | Q(author=user, status="d")
+            )
+            return visible_queryset.order_by("-created_on")
+
+        return base_queryset.filter(status="p").order_by("-created_on")
 
     def get_context_data(self, **kwargs):
         """

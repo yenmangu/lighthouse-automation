@@ -28,7 +28,6 @@
   </div>
   <div class="container-fluid resource-list">
     {% for resource in resource_list %}
-      {{ resource.featured_image.public_id }}
       <div class="row mt-2">
         <div class="col-md-4">
           {% with image=resource.featured_image %}
@@ -44,8 +43,11 @@
         <div class="col-md-8">
           <a href="{% url 'resources:resource_detail' slug=resource.slug %}"
              class="resource_link">
-            <div class="card-title">{{ resource.title }}</div>
-            <div class="card-description">{{ resource.description }}</div>
+            {% if resource.status == "d" %}<span class="badge text-bg-secondary">Draft</span>{% endif %}
+            <div class="card-title">
+              <h4>{{ resource.title }}</h4>
+            </div>
+            <div class="card-description">{{ resource.description | safe }}</div>
           </a>
         </div>
       </div>
