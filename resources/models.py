@@ -92,6 +92,14 @@ class Resource(models.Model):
             },
         )
 
+    def save(self, *args, **kwargs):
+        """
+        Override the save() method to ensure a slug is always created/provided
+        """
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
 
 class Comment(models.Model):
     """
