@@ -71,8 +71,12 @@
             </div>
             <div class="row mt-2">
               <div class="col">
-                <button class="btn btn-edit" data-resource_id="{{ resource.id }}">Edit</button>
-                <button class="btn btn-delete" data-resource_id="{{ resource.id }}">Delete</button>
+                <button class="btn btn-edit"
+                        id="resourceEdit"
+                        data-resource-id="{{ resource.id }}">Edit</button>
+                <button class="btn btn-delete"
+                        id="resourceDelete"
+                        data-delete-url="{% url 'resources:resource_delete' slug=resource.slug %}">Delete</button>
               </div>
             </div>
           </div>
@@ -152,63 +156,37 @@
       </div>
     </div>
   </div>
-  <!-- <div class="masthead">
-    <div class="container">
-      <div class="row g-3 ">
-        <div class="d-none d-md-block col-4 masthead__image">
-          {% if 'placeholder' in resource.featured_image.url %}
-            <img class="card-img-top" src="{% static 'images/default.jpg' %}" alt="placeholder image">
-          {% else %}
-            <img class="card-img-top" src="{{ resource.featured_image.url }}" alt="{{ resource.title }}">
-          {% endif %}
+  <!-- Delete confirmation modal -->
+  <div class="modal fade"
+       id="deleteModal"
+       tabindex="1"
+       aria-labelledby="deleteModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel"></h5>
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"></button>
         </div>
-        <div class="col-8 masthead__text" style="border: 2px solid green">
-          <h1 class="resource-title">{{ resource.title }}</h1>
+        <div class="modal-body">
+          Are you sure you want to delete this?
+          This action cannot be undone.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <form method="post" action="">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+          </form>
+          {% comment %} <a href="#" id="deleteConfirm" class="btn btn-danger">Delete</a> {% endcomment %}
         </div>
       </div>
     </div>
   </div>
-  <div class="col-md-4 card mb-4 mt-3">
-    <div class="card-body">
-      {% if user.is_authenticated %}
-        <h3>Leave a comment:</h3>
-        <p>Commenting as: {{ user.username }}</p>
-        <form id="commentForm" method="post">
-          {{ comment_form | crispy }}
-          {% csrf_token %}
-          <button id="submitButton" type="submit" class="btn btn-signup btn-lg">Submit</button>
-        </form>
-      {% else %}
-        <p>Log in to leave a comment</p>
-      {% endif %}
-    </div>
-  </div>
-  <div class="masthead">
-    <div class="container">
-      <div class="row g-0">
-        <div class="d-none d-md-block col-md-6 masthead-image">
-          {% if "placeholder" in resource.featured_image.url %}
-            <img class="card-img-top" src="{% static 'images/default.jpg' %}" alt="placeholder image">
-          {% else %}
-            <img class="card-img-top" src="{{ resource.featured_image.url }}" alt="{{ resource.title }}">
-          {% endif %}
-        </div>
-        <div class="col-md-4 card mb-4 mt-3">
-          <div class="card-body">
-            {% if user.is_authenticated %}
-              <h3>Leave a comment:</h3>
-              <p>Commenting as: {{ user.username }}</p>
-              <form id="commentForm" method="post">
-                {{ comment_form | crispy }}
-                {% csrf_token %}
-                <button id="submitButton" type="submit" class="btn btn-signup btn-lg">Submit</button>
-              </form>
-            {% else %}
-              <p>Log in to leave a comment</p>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-</div> -->
 {% endblock content %}
+{% block extras %}
+  <script src="{% static 'js/resourceActions.js' %}"></script>
+{% endblock extras %}
