@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
+from django.utils.text import slugify
 from cloudinary.models import CloudinaryField
 
 
@@ -40,6 +42,14 @@ class Subject(models.Model):
         blank=True,
     )
 
+    def save(self, *args, **kwargs):
+        """
+        Override the save() method to ensure a slug is always created/provided
+        """
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.name}"
 
@@ -58,7 +68,7 @@ class Resource(models.Model):
     )
     description = models.TextField()
     featured_image = CloudinaryField("image", default="placeholder")
-    resource_link = models.URLField(null=True)
+    resource_link = models.URLField(blank=True, null=True)
     subjects = models.ManyToManyField(
         Subject, related_name="all_resources", through=SubjectResourceJoin
     )
@@ -68,6 +78,19 @@ class Resource(models.Model):
 
     def __str__(self):
         return f"{self.title}"
+
+    def get_absolute_url(self):
+        """
+        Return the absolute URL for this Resource instance.
+
+        Used by generic views and redirects after create/update operations.
+        """
+        return reverse(
+            "resources:resource_detail",
+            kwargs={
+                "slug": self.slug,
+            },
+        )
 
 
 class Comment(models.Model):

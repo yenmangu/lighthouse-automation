@@ -5,6 +5,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from tinymce.widgets import TinyMCE
 from view_breadcrumbs import (
     ListBreadcrumbMixin,
@@ -305,10 +307,39 @@ class SubjetResourceListView(
         return context
 
 
+# TODO: Finish this class!!
 class CreateResource(
-    generic.CreateView,
+    SuccessMessageMixin,
+    LoginRequiredMixin,
     CreateBreadcrumbMixin,
+    generic.CreateView,
 ):
+    """
+    Create a new Resource instance.
+
+    This view renders the resource creation form, ensures the user is
+    authenticated, assigns server-owned fields, and delegates persistence
+    logic to the associated ModelForm (including subject M2M handling).
+
+    Renders success message upon successful Resource creation.
+    """
+
     model = Resource
     form_class = ResourceForm
     template_name = "resources/resource_create.html"
+    success_message = "Resource '%(title)s' created successfully."
+
+    def form_valid(self, form):
+        """
+        Assign server-owned fields before saving.
+        The author is derived from the current request and must not be
+        user-editable via the form.
+        """
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        """
+        Redirect to the newly created Resource detail view.
+        """
+        return self.object.get_absolute_url()
