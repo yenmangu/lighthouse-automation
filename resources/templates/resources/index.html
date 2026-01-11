@@ -28,22 +28,21 @@
   </div>
   <div class="container-fluid resource-list">
     {% for resource in resource_list %}
+      {{ resource.featured_image.public_id }}
       <div class="row mt-2">
         <div class="col-md-4">
-          {% if resource.featured_image %}
-            {% if 'placeholder' in resource.featured_image.url %}
+          {% with image=resource.featured_image %}
+            {% if image.public_id == "placeholder" %}
               <img src="{% static 'images/default.jpg' %}"
                    alt="placeholder image"
                    class="card-img-top">
             {% else %}
-              <img src="{{ resource.featured_image.url }}"
-                   alt="{{ resource.title }}"
-                   class="card-img-top">
+              <img src="{{ image.url }}" alt="{{ resource.title }}" class="card-img-top">
             {% endif %}
-          {% endif %}
+          {% endwith %}
         </div>
         <div class="col-md-8">
-          <a href="{% url 'resources:resource_detail' resource.slug %}"
+          <a href="{% url 'resources:resource_detail' slug=resource.slug %}"
              class="resource_link">
             <div class="card-title">{{ resource.title }}</div>
             <div class="card-description">{{ resource.description }}</div>
