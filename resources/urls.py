@@ -5,6 +5,7 @@ from .views import (
     SubjectsList,
     SubjetResourceListView,
     CreateResource,
+    ResourceDelete,
 )
 
 app_name = "resources"
@@ -19,6 +20,11 @@ urlpatterns = [
         "resources/<slug:slug>/",
         ResourceDetail.as_view(),
         name=ResourceDetail.detail_view_name,
+    ),
+    path(
+        "resources/<slug:slug>/delete/",
+        ResourceDelete.as_view(),
+        name=ResourceDelete.delete_view_name,
     ),
     path(
         "subjects/",

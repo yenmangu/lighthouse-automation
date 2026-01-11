@@ -159,7 +159,7 @@
   <!-- Delete confirmation modal -->
   <div class="modal fade"
        id="deleteModal"
-       tabindex="1"
+       tabindex="-1"
        aria-labelledby="deleteModalLabel"
        aria-hidden="true">
     <div class="modal-dialog">
@@ -179,7 +179,7 @@
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <form method="post" action="">
             {% csrf_token %}
-            <button type="submit">Delete</button>
+            <button class="btn btn-danger" type="submit">Delete</button>
           </form>
           {% comment %} <a href="#" id="deleteConfirm" class="btn btn-danger">Delete</a> {% endcomment %}
         </div>

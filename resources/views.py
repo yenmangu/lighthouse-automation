@@ -2,16 +2,18 @@ from typing import Any
 from django.http import HttpRequest, HttpResponseRedirect
 from django import forms
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.db.models import Q
 from django.views import generic
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from tinymce.widgets import TinyMCE
 from view_breadcrumbs import (
     ListBreadcrumbMixin,
     DetailBreadcrumbMixin,
     CreateBreadcrumbMixin,
+    DeleteBreadcrumbMixin,
 )
 from .models import Resource, Subject
 from .forms import CommentForm, ResourceForm
@@ -48,7 +50,6 @@ class ResourceList(
     """
 
     model = Resource
-    queryset = Resource.objects.filter(status="p")
     template_name = "resources/index.html"
     paginate_by = 6
     add_home = False
@@ -307,7 +308,6 @@ class SubjetResourceListView(
         return context
 
 
-# TODO: Finish this class!!
 class CreateResource(
     SuccessMessageMixin,
     LoginRequiredMixin,
@@ -342,4 +342,75 @@ class CreateResource(
         """
         Redirect to the newly created Resource detail view.
         """
+        print(f"{self.object.get_absolute_url()}")
         return self.object.get_absolute_url()
+
+
+class ResourceDelete(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    DeleteBreadcrumbMixin,
+    generic.DeleteView,
+):
+    """
+    Handle deletion of a Resource instance.
+
+    This view deletes a Resource via a POST request, typically triggered
+    from a confirmation modal on the resource detail page.
+
+    Access is restricted to:
+    - the resource author, or
+    - a superuser.
+
+    Direct GET access to the delete URL is disabled and will redirect
+    the user back to the resource list.
+
+    On successful deletion, the user is redirected to the resource list
+    and shown a success message.
+    """
+
+    model = Resource
+    success_url = reverse_lazy("resources:resource_list")
+
+    def get(self, request, *args, **kwargs):
+        """
+        Handle GET requests to the delete endpoint.
+
+        This view is intended to be used with a modal-based confirmation
+        workflow, so direct GET access to the delete URL is not supported.
+
+        Any GET request is redirected back to the resource list.
+        """
+        return redirect("resources:resource_list")
+
+    def test_func(self):
+        """
+        Determine whether the current user is allowed to delete the resource.
+
+        Deletion is permitted if the user is a superuser or if they are
+        the author of the resource being deleted.
+
+        Returns:
+            bool: True if the user is authorised to delete the resource,
+            otherwise False.
+        """
+        if self.request.user.is_superuser:
+            return True
+        return self.get_object().author == self.request.user
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Delete the resource and display a success message.
+
+        The resource title is captured before deletion so it can be
+        included in the success message shown to the user.
+
+        After deletion, the user is redirected to the resource list.
+        """
+        title = self.get_object().title
+        response = super().delete(request, *args, **kwargs)
+        messages.add_message(
+            request, messages.SUCCESS, f"{title} deleted successfully."
+        )
+        messages.success(request, f"{title} deleted successfully")
+        return response
