@@ -1,5 +1,8 @@
 {
+	"editor.fontFamily": "SF Mono",
+	"files.autoSave": "off",
 	"files.exclude": {
+		"**/._*": true,
 		"**/.DS_Store": true,
 		"**/.git": false,
 		"**/.github": false,
@@ -10,14 +13,12 @@
 		"**/core.Microsoft*": true,
 		"**/core.mongo*": true,
 		"**/core.python*": true,
-		"**/CVS": true,
-		"**/._*": true
+		"**/CVS": true
 	},
-	"files.autoSave": "off",
-	"workbench.colorTheme": "Ayu Mirage Bordered",
+	"javascript.preferences.importModuleSpecifier": "relative",
+	"javascript.preferences.importModuleSpecifierEnding": "js",
+	"python.REPL.sendToNativeREPL": true,
 	"terminal.integrated.gpuAcceleration": "auto",
 	"typescript.disableAutomaticTypeAcquisition": true,
-	"editor.fontFamily": "SF Mono",
-	"javascript.preferences.importModuleSpecifier": "relative",
-	"javascript.preferences.importModuleSpecifierEnding": "js"
+	"workbench.colorTheme": "Ayu Mirage Bordered"
 }
