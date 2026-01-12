@@ -71,14 +71,16 @@ class ResourceForm(forms.ModelForm):
     class Meta:
         model = Resource
         fields = (
-            "title",
             "author",
+            "title",
             "description",
             "featured_image",
             "resource_link",
             "subjects",
             "new_subject_field",
         )
+
+        exclude = ["slug"]
 
         widgets = {
             "description": TinyMCE(
@@ -88,3 +90,11 @@ class ResourceForm(forms.ModelForm):
                 },
             )
         }
+
+    def __init__(self, *args, **kwargs):
+        """
+        Override the __init__ method to ensure 'author' field is disabled yet remains
+        visibile to show ownership.
+        """
+        super.__init__(self, *args, **kwargs)
+        self.fields["author"].disabled = True
