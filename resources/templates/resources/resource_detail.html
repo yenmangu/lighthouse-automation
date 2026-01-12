@@ -73,7 +73,7 @@
               <div class="col">
                 <button class="btn btn-edit"
                         id="resourceEdit"
-                        data-resource-id="{{ resource.id }}">Edit</button>
+                        data-edit-url="{% url 'resources:resource_update' slug=resource.slug %}">Edit</button>
                 <button class="btn btn-delete"
                         id="resourceDelete"
                         data-delete-url="{% url 'resources:resource_delete' slug=resource.slug %}">Delete</button>
