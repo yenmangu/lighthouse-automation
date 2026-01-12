@@ -49,16 +49,17 @@ class TestResourceForm(TestCase):
 
         resource = form.save()
 
-        # Assert that saving the form returns a Resource model instance
+        # OPTIONAL: Assert that saving the form returns a Resource model instance (useful for debugging)
         self.assertIsInstance(resource, Resource)
 
-        # Assert that the Resource has been persisted and assigned a primary key
+        # CORE: Persistance signal - A saved model must have a primary key.
         self.assertIsNotNone(resource.pk)
 
-        # Assert that the saved Resource can be retrieved from the database
+        # OPTIONAL: Assert that the saved Resource can be retrieved from the database
         self.assertTrue(Resource.objects.filter(pk=resource.pk).exists())
 
-        # Assert that exactly one Resource row was created in the database
+        # CORE: Assert that exactly one Resource row was created in the database
+        # (guard against double save bugs)
         self.assertEqual(
             Resource.objects.count(),
             1,
