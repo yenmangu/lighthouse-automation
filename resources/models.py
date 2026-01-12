@@ -94,11 +94,31 @@ class Resource(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Override the save() method to ensure a slug is always created/provided
+        Override the save() method to ensure a slug is always created/provided.
+
+        Prevents URL reversing failures and avoids IntegrityError when two
+        resources would otherwise share the same slug.
         """
         if not self.slug:
-            self.slug = slugify(self.title)
+            self.slug = self._build_unique_slug()
         super().save(*args, **kwargs)
+
+    def _build_unique_slug(self) -> str:
+        """
+        Create a slug from the title, adding a numeric suffix if needed.
+
+        Example:
+        - "My Notes" -> "my-notes"
+        - if taken -> "my-notes-2", then "my-notes-3", etc.
+        """
+        base_slug = slugify(self.title) or "resource"
+        candidate_slug = base_slug
+        suffix = 2
+
+        while self.__class__.objects.filter(slug=candidate_slug).exists():
+            candidate_slug = f"{base_slug}-{suffix}"
+            suffix += 1
+        return candidate_slug
 
 
 class Comment(models.Model):
