@@ -1,37 +1,66 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from .forms import ResourceForm
+from .models import Subject, Resource
 
-from .models import Resource
 
-
-class TestUniqueSlug(TestCase):
+class TestResourceForm(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(
-            username="testuser", password="password123"
+            username="test_username",
+            password="test_password",
+        )
+        self.subject = Subject.objects.create(
+            name="Test Subject",
+            slug="test-subject",
         )
 
-    def test_slug_generation_and_is_unique(self):
-        resource_one = Resource.objects.create(
-            title="Test Resource",
-            author=self.user,
-            description="First resource",
+    def test_form_is_valid(self):
+        """
+        Test form is valid with non empty values
+        """
+
+        resource_form = ResourceForm(
+            data={
+                "title": "test title",
+                "author": self.user.id,
+                "description": "This is a description",
+                "subjects": [self.subject.id],
+            }
+        )
+        self.assertTrue(
+            resource_form.is_valid(),
+            msg="The resource form is valid",
         )
 
-        resource_two = Resource.objects.create(
-            title="Test Resource",
-            author=self.user,
-            description="Second resource",
-        )
+    def test_save_creates_links_subject(self):
 
-        resource_three = Resource.objects.create(
-            title="Test Resource",
-            author=self.user,
-            description="Third resource",
+        form = ResourceForm(
+            data={
+                "title": "test_title",
+                "author": self.user.id,
+                "description": "Another useless description",
+                "subjects": [self.subject.id],
+                "new_subject_field": "A brand new subject",
+            }
         )
-        slugs = {
-            resource_one.slug,
-            resource_two.slug,
-            resource_three.slug,
-        }
-        self.assertEqual(len(slugs), 3)
+        self.assertTrue(form.is_valid(), msg=form.errors.as_text)
+
+        resource = form.save()
+
+        # Assert that saving the form returns a Resource model instance
+        self.assertIsInstance(resource, Resource)
+
+        # Assert that the Resource has been persisted and assigned a primary key
+        self.assertIsNotNone(resource.pk)
+
+        # Assert that the saved Resource can be retrieved from the database
+        self.assertTrue(Resource.objects.filter(pk=resource.pk).exists())
+
+        # Assert that exactly one Resource row was created in the database
+        self.assertEqual(
+            Resource.objects.count(),
+            1,
+            msg="Expected exactly one Resource to be saved to the db",
+        )

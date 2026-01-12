@@ -57,8 +57,6 @@ class Subject(models.Model):
 class Resource(models.Model):
     """Stores a single Resourse entity"""
 
-    # TODO: Add resource_type when associated model is defined
-
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     author = models.ForeignKey(

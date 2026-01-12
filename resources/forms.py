@@ -49,7 +49,7 @@ class ResourceForm(forms.ModelForm):
         self.save_m2m()
 
         # Attempt to get a new subject name
-        raw_subject_name = (self.cleaned_data.get("new_subject_name") or "").strip()
+        raw_subject_name = (self.cleaned_data.get("new_subject_field") or "").strip()
         raw_subject_name = " ".join(raw_subject_name.split())
 
         if raw_subject_name:
