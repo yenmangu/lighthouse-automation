@@ -6,6 +6,7 @@ from .views import (
     SubjetResourceListView,
     CreateResource,
     ResourceDelete,
+    ResourceUpdate,
 )
 
 app_name = "resources"
@@ -27,15 +28,15 @@ urlpatterns = [
         name=ResourceDelete.delete_view_name,
     ),
     path(
+        "resources/<slug:slug>/edit/",
+        ResourceUpdate.as_view(),
+        name=ResourceUpdate.update_view_name,
+    ),
+    path(
         "subjects/",
         SubjectsList.as_view(),
         name=SubjectsList.list_view_name,
     ),
-    # path(
-    #     "subjects/",
-    #     views.<view>.as_view(),
-    #     name="all_subjects",
-    # ),
     path(
         "subjects/<slug:slug>/",
         SubjetResourceListView.as_view(),
