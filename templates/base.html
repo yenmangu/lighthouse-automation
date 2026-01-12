@@ -1,6 +1,7 @@
 {% load static %}
 {% load view_breadcrumbs %}
 {% url 'resources:resource_list' as home_url %}
+{% url "resources:create_resource" as create_url %}
 {% url 'account_login' as login_url %}
 {% url 'account_signup' as signup_url %}
 {% url 'account_logout' as logout_url %}
@@ -62,7 +63,7 @@
             </li>
             {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="#">Add Resource</a>
+                <a class="nav-link" href="{% url 'resources:resource_create' %}">Add Resource</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
