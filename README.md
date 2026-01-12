@@ -307,7 +307,10 @@ All custom CSS adopts the BEM (Block, Element, Modifier) naming convention for m
 
 ## Agile Development Process
 
-> StudyStack was developed using Agile methodologies, leveraging GitHub’s project management tools for iterative planning, task tracking, and prioritisation. This ensured the project remained user-focused, adaptable, and transparent throughout its lifecycle.
+> [!NOTE]
+> Commit messages follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) structure, with slight adaptations to favour clarity and intent for assessment purposes.
+
+StudyStack was developed using Agile methodologies, leveraging GitHub’s project management tools for iterative planning, task tracking, and prioritisation. This ensured the project remained user-focused, adaptable, and transparent throughout its lifecycle.
 
 ### GitHub Projects
 
