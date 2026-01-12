@@ -14,6 +14,7 @@ from view_breadcrumbs import (
     DetailBreadcrumbMixin,
     CreateBreadcrumbMixin,
     DeleteBreadcrumbMixin,
+    UpdateBreadcrumbMixin,
 )
 from .models import Resource, Subject
 from .forms import CommentForm, ResourceForm
@@ -377,7 +378,6 @@ class CreateResource(
         """
         Redirect to the newly created Resource detail view.
         """
-        print(f"{self.object.get_absolute_url()}")
         return self.object.get_absolute_url()
 
 
@@ -449,3 +449,76 @@ class ResourceDelete(
         )
         messages.success(request, f"{title} deleted successfully")
         return response
+
+
+class ResourceUpdate(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    UpdateBreadcrumbMixin,
+    generic.UpdateView,
+):
+    """
+    Update the resource and display a success message.
+
+    - GET request required to render the form.
+    - POST request required to update the DB.
+
+    ``self.object`` - The object being updated.
+
+    Resource data is captured to display in form.
+
+    Access is restricted to:
+    - the resource author, or
+    - a superuser.
+
+    Slug is derived from Resource title. Should title change, then slug will change. Slug is captured locally to ensure correct redirect happens.
+
+    On successful update, User will be redirected to the updated Resource detail.
+    """
+
+    model = Resource
+    form_class = ResourceForm
+    template_name = "resources/resource_create.html"
+    breadcrumb_use_pk = False
+
+    def get_form(self, form_class=None):
+        """
+        Override enforces 'author' field as disabled to anyone except Superuser.
+        Field still visible to show ownership of Resource.
+
+        """
+        form = super().get_form(form_class)
+
+        if not self.request.user.is_superuser:
+            form.fields["author"].disabled = True
+
+        return super().get_form(form_class)
+
+    def form_valid(self, form):
+        resource = form.save(commit=False)
+
+        if not resource.pk:
+            resource.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        """
+        Redirect to the newly created Resource detail view.
+        """
+        print(f"{self.object.get_absolute_url()}")
+        return self.object.get_absolute_url()
+
+    def test_func(self):
+        """
+        Determine whether the current user is allowed to update the resource.
+
+        Update is permitted if the user is a superuser or if they are
+        the author of the resource being updated.
+
+        Returns:
+            bool: True if the user is authorised to update the resource,
+            otherwise False.
+        """
+        if self.request.user.is_superuser:
+            return True
+        return self.get_object().author == self.request.user
