@@ -60,7 +60,7 @@ class Resource(models.Model):
     # TODO: Add resource_type when associated model is defined
 
     title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True, blank=True)
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
