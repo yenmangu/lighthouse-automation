@@ -44,5 +44,6 @@
 	/* ----------------- workbench ---------------- */
 	"terminal.integrated.gpuAcceleration": "auto",
 	"typescript.disableAutomaticTypeAcquisition": true,
-	"workbench.colorTheme": "Ayu Mirage Bordered"
+	"workbench.colorTheme": "Ayu Mirage Bordered",
+	"python.REPL.enableREPLSmartSend": false
 }
