@@ -1,10 +1,12 @@
 from typing import Any
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django import forms
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.db.models import Q
 from django.views import generic
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -16,7 +18,7 @@ from view_breadcrumbs import (
     DeleteBreadcrumbMixin,
     UpdateBreadcrumbMixin,
 )
-from .models import Resource, Subject
+from .models import Resource, Subject, Comment
 from .forms import CommentForm, ResourceForm
 
 # Create your views here.
@@ -148,7 +150,10 @@ class ResourceDetail(
         Returns:
             QuerySet: Published :model:`resources.Resource` objects only.
         """
-        resource = Resource.objects.filter(status="p").order_by("-created_on")
+        if self.request.user.is_superuser:
+            resource = Resource.objects.order_by("-created_on")
+        else:
+            resource = Resource.objects.filter(status="p").order_by("-created_on")
 
         return resource
 
@@ -480,6 +485,7 @@ class ResourceUpdate(
     form_class = ResourceForm
     template_name = "resources/resource_create.html"
     breadcrumb_use_pk = False
+    add_home = False
 
     def get_form(self, form_class=None):
         """
@@ -522,3 +528,91 @@ class ResourceUpdate(
         if self.request.user.is_superuser:
             return True
         return self.get_object().author == self.request.user
+
+
+@login_required
+@require_POST
+def delete_comment(
+    request: HttpRequest,
+    slug: str,
+    comment_id: int,
+) -> HttpResponse:
+    """
+    Handle deletion of a single comment associated with a resource.
+
+    This view processes POST requests only and deletes a comment if the
+    requesting user is authorised to do so (the comment author or a
+    superuser). After attempting deletion, the user is redirected back
+    to the parent resource detail page with appropriate feedback.
+    """
+    queryset = Resource.objects.filter(status="p")
+    resource_selected = get_object_or_404(queryset, slug=slug)
+    comment = get_object_or_404(
+        Comment,
+        pk=comment_id,
+        resource=resource_selected,
+    )
+
+    if request.user.is_superuser or comment.author == request.user:
+        comment.delete()
+        messages.add_message(request, messages.SUCCESS, "Comment deleted!")
+
+    else:
+        messages.add_message(
+            request, messages.ERROR, "You can only delete your own comments!"
+        )
+    return redirect("resources:resource_detail", slug=slug)
+
+
+@login_required
+@require_POST
+def edit_comment(
+    request: HttpRequest,
+    slug: str,
+    comment_id: int,
+) -> HttpResponse:
+    """
+    Handle editing of an existing comment on a resource.
+
+    This view processes POST submissions only and updates an existing comment
+    using the CommentForm. Editing is restricted to the comment author or a
+    superuser. On a successful edit, the comment is marked as updated and the
+    user is redirected back to the resource detail page with feedback.
+
+    This logic is intentionally kept at the view level to ensure that only
+    user-initiated edits (and not admin or system saves) mark a comment as
+    updated.
+    """
+
+    queryset = Resource.objects.filter(status="p")
+    resource_selected = get_object_or_404(queryset, slug=slug)
+    comment = get_object_or_404(
+        Comment,
+        pk=comment_id,
+        resource=resource_selected,
+    )
+
+    if request.user.is_superuser or comment.author == request.user:
+        comment_form = CommentForm(
+            data=request.POST,
+            instance=comment,
+        )
+
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.is_updated = True
+            comment.save()
+            messages.success(
+                request=request,
+                message="Success editing comment",
+            )
+        else:
+            messages.error(
+                request=request,
+                message="Error updating comment!",
+            )
+
+    return redirect(
+        "resources:resource_detail",
+        slug=slug,
+    )

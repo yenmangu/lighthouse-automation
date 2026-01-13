@@ -7,6 +7,8 @@ from .views import (
     CreateResource,
     ResourceDelete,
     ResourceUpdate,
+    delete_comment,
+    edit_comment,
 )
 
 app_name = "resources"
@@ -46,5 +48,15 @@ urlpatterns = [
         "create/",
         CreateResource.as_view(),
         name=CreateResource.create_view_name,
+    ),
+    path(
+        "resources/<slug:slug>/comments/<int:comment_id>/delete",
+        view=delete_comment,
+        name="comment_delete",
+    ),
+    path(
+        "resources/<slug:slug>/comments/<int:comment_id>/edit",
+        view=edit_comment,
+        name="comment_edit",
     ),
 ]

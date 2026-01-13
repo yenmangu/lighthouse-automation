@@ -10,13 +10,15 @@
           <div class="card-body">
             <!-- Resource Title -->
             <header class="mb-3">
+              {% if resource.status == "d" %}<span class="badge text-bg-secondary">Draft</span>{% endif %}
+              {% if resource.status == "w" %}<span class="badge text-bg-secondary">Withdrawn</span>{% endif %}
               <h1 class="card-title">{{ resource.title }}</h1>
               {% if resource.created_on %}<p class="text-muted mb-0">Added on {{ resource.created_on|date:"j F Y" }}</p>{% endif %}
             </header>
             <!-- Resource Description -->
             {% if resource.description %}
               <section class="mb-4">
-                <p>{{ resource.description }}</p>
+                <p>{{ resource.description | safe }}</p>
               </section>
             {% endif %}
             <!-- Resource Metadata -->
@@ -71,9 +73,10 @@
             </div>
             <div class="row mt-2">
               <div class="col">
-                <button class="btn btn-edit"
-                        id="resourceEdit"
-                        data-edit-url="{% url 'resources:resource_update' slug=resource.slug %}">Edit</button>
+                {% comment %} <button class="btn btn-edit" id="resourceEdit" data-edit-url="{% url 'resources:resource_update' slug=resource.slug %}">Edit</button> {% endcomment %}
+                <a href="{% url 'resources:resource_update' slug=resource.slug %}"
+                   id="resourceEdit"
+                   class="btn btn-edit">Edit</a>
                 <button class="btn btn-delete"
                         id="resourceDelete"
                         data-delete-url="{% url 'resources:resource_delete' slug=resource.slug %}">Delete</button>
@@ -100,27 +103,35 @@
                   <h5 class="card-title">{{ comment.author }}</h5>
                   <!-- TODO: Update layout - xxx wrote.. body on .. date -->
                   <span>&nbsp;wrote on&nbsp;</span>
-                  <em class="card-text">{{ comment.created_on }}</em>
+                  <em class="card-text">
+                    {% if comment.is_updated %}
+                      {{ comment.updated_on }}
+                    {% else %}
+                      {{ comment.created_on }}
+                    {% endif %}
+                  </em>
                   <span>&nbsp;:</span>
                 </div>
                 <div class="col-md-10">
-                  <div class="comment-body" id="{{ comment.id }}">{{ comment.body | linebreaks }}</div>
+                  <div class="comment-body" id="comment{{ comment.id }}">{{ comment.body | linebreaks }}</div>
                 </div>
                 <div class="col-md-2">
                   {% if user.is_authenticated and comment.author == user %}
                     <div class="row gap-1 actions__comment">
                       <div class="col p-0">
-                        <button class="btn icon-btn btn-edit"
+                        <button class="btn icon-btn btn-edit btn-edit-comment"
                                 aria-label="Edit"
-                                data-comment_id="{{ comment.id }}">
+                                data-comment-id="{{ comment.id }}"
+                                data-edit-url="{% url 'resources:comment_edit' slug=resource.slug comment_id=comment.id %}">
                           {% svg 'edit' class="svg-icon svg-icon--default" height="24" width="24" %}
                           {% svg 'edit-hover' class="svg-icon svg-icon--hover" height="24" width="24" %}
                         </button>
                       </div>
                       <div class="col p-0">
-                        <button class="btn icon-btn btn-delete"
+                        <button class="btn icon-btn btn-delete btn-delete-comment"
                                 aria-label="Delete"
-                                data-comment_id="{{ comment.id }}">
+                                data-comment-id="{{ comment.id }}"
+                                data-delete-url="{% url 'resources:comment_delete' slug=resource.slug comment_id=comment.id %}">
                           {% svg 'bin' class="svg-icon svg-icon--default" height="24" width="24" %}
                           {% svg 'bin-hover' class="svg-icon svg-icon--hover" height="24" width="24" %}
                         </button>
@@ -188,5 +199,7 @@
   </div>
 {% endblock content %}
 {% block extras %}
-  <script src="{% static 'js/resourceActions.js' %}"></script>
+  {% if user.is_authenticated or user.is_superuser %}
+    <script src="{% static 'js/resourceDetail.js' %}"></script>
+  {% endif %}
 {% endblock extras %}
