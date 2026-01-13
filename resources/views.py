@@ -237,6 +237,7 @@ class SubjectsList(ListBreadcrumbMixin, generic.ListView):
     model = Subject
     template_name = "resources/subject_list.html"
     context_object_name = "subject_list"
+    add_home = False
 
     def get_queryset(self, **kwargs):
         """
@@ -370,6 +371,8 @@ class CreateResource(
     template_name = "resources/resource_create.html"
     success_message = "Resource '%(title)s' created successfully."
 
+    add_home = False
+
     def form_valid(self, form):
         """
         Assign server-owned fields before saving.
@@ -411,6 +414,8 @@ class ResourceDelete(
 
     model = Resource
     success_url = reverse_lazy("resources:resource_list")
+
+    add_home = False
 
     def get(self, request, *args, **kwargs):
         """
@@ -486,6 +491,31 @@ class ResourceUpdate(
     template_name = "resources/resource_create.html"
     breadcrumb_use_pk = False
     add_home = False
+
+    @property
+    def crumbs(self):
+        """
+        Provide breadcrumb entries for the current subject page.
+
+        Overrides the default breadcrumb label so that the breadcrumb displays
+        the subject name instead of a generic model label.
+
+        Returns:
+            list[tuple[str, str]]: Breadcrumb items as (label, url) tuples.
+        """
+        resource = self.get_object()
+        return [
+            # ("Home", reverse("resources:resource_list")),
+            ("Resources", reverse("resources:resource_list")),
+            (
+                str(resource),
+                reverse("resources:resource_detail", kwargs={"slug": resource.slug}),
+            ),
+            (
+                f"resources/{resource.slug}/update",
+                reverse("resources:resource_update", kwargs={"slug": resource.slug}),
+            ),
+        ]
 
     def get_form(self, form_class=None):
         """
