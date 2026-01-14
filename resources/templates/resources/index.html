@@ -87,7 +87,15 @@
     {% empty %}
       <div class="row mt-2">
         <div class="col-md-4">
-          <p>No resources to show</p>
+          {% if request.GET %}
+            <p class="empty">No study resources match your selected filters. Try widening your search.</p>
+          {% else %}
+            <p class="empty">
+              No study resources have been added yet.
+              You can add one using the
+              <a href="{% url 'resources:create_resource' %}">Create Resource</a> form.
+            </p>
+          {% endif %}
         </div>
       </div>
     {% endfor %}
