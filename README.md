@@ -146,8 +146,6 @@ I've decomposed my Epics into User Stories for prioritizing and implementing the
 
 ### Existing Features
 
-### Existing Features
-
 The table below outlines the features implemented in **StudyStack**, mapped to their corresponding user stories and MoSCoW priorities.
 
 > [!Note]
@@ -171,6 +169,34 @@ The table below outlines the features implemented in **StudyStack**, mapped to t
 | Form Validation & Error Feedback        | 14            | **Must Have**   | ❌          |
 | Responsive Design (Mobile–Desktop)      | 15            | **Must Have**   | ❌          |
 | Security & Permissions Enforcement      | 16            | **Must Have**   | ❌          |
+
+#### Filtering Behaviour
+
+StudyStack supports filtering resources by multiple subjects.
+When more than one subject is selected, filtering uses **AND semantics**.
+
+This means that only resources tagged with **all selected subjects** are returned.
+This design choice encourages more precise discovery of interdisciplinary study materials
+and avoids overly broad result sets.
+
+Filtering is implemented using the `django-filter` package, allowing subject selection
+to scale cleanly while maintaining predictable behaviour and pagination support.
+
+#### User Feedback
+
+Clear and accessible user feedback is provided throughout the filtering process to ensure
+users understand the outcome of their interactions.
+
+When filters are applied, the resulting resource list updates immediately, reflecting the
+selected criteria. If no resources match the chosen filters, an explicit empty-state message
+is displayed to inform the user that no results were found, rather than presenting a blank page.
+
+All feedback messages are presented using Django’s built-in messaging framework and rendered
+as accessible alerts. These messages are announced to assistive technologies using appropriate
+ARIA roles, ensuring that screen reader users receive the same feedback as sighted users.
+
+This approach improves usability, prevents ambiguity, and supports an inclusive experience
+across a range of interaction methods.
 
 #### Key References
 
