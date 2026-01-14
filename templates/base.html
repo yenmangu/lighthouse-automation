@@ -86,8 +86,9 @@
         <div class="col-md-8 offset-md-2">
           {% for message in messages %}
             <div class="alert {{ message.tags }} alert-dismissible fade show"
-                 id="msg"
-                 role="alert">
+                 id="msg-{{ forloop.counter }}"
+                 role="alert"
+                 aria-live="assertive">
               {{ message | safe }}
               <button type="button"
                       class="btn-close"
