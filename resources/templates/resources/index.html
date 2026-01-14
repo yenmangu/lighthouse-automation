@@ -71,14 +71,14 @@
           {% endwith %}
         </div>
         <div class="col-md-8">
-          <a href="{% url 'resources:resource_detail' slug=resource.slug %}"
-             class="resource_link">
-            {% if resource.status == "d" %}<span class="badge text-bg-secondary">Draft</span>{% endif %}
-            <div class="card-title">
-              <h4>{{ resource.title }}</h4>
-            </div>
-            <div class="card-description">{{ resource.description | safe }}</div>
-          </a>
+          class="resource_link">
+          {% if resource.status == "d" %}<span class="badge text-bg-secondary">Draft</span>{% endif %}
+          <div class="card-title">
+            <h4>
+              <a href="{% url 'resources:resource_detail' slug=resource.slug %}">{{ resource.title }}</a>
+            </h4>
+          </div>
+          <div class="card-description">{{ resource.description | safe }}</div>
         </div>
       </div>
     {% empty %}
