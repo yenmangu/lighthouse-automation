@@ -39,11 +39,54 @@ body {
 	background-color: #f9fafc;
 }
 
+/* ---------------- Breadcrumbs --------------- */
+
+nav[aria-label='breadcrumb'] {
+	padding-left: 1rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	background-color: #bdbdbd;
+}
+
+ol.breadcrumb {
+	margin-bottom: 0.2rem;
+}
+
 /* ------------------- Index ------------------ */
 
-.container__index--top {
-	border: 2px solid greenyellow;
+/* Filter Form */
+
+.filter-heading {
+	width: 100%;
+	margin-bottom: 1rem;
+	border-bottom: 2px solid #bdbdbd;
 }
+
+.form-controls .col-md-4 {
+	margin-top: auto;
+	justify-content: flex-end;
+}
+
+.form-controls .form-controls__created-on {
+	border: none;
+	margin-top: 0;
+}
+
+.form-controls .form-controls__created-on select {
+	margin-top: auto;
+}
+
+.form-controls .col-md-4 label,
+.form-controls .col-md-4 input {
+	display: block;
+}
+.form-actions {
+	display: flex;
+	flex-direction: row;
+	gap: 2rem;
+}
+
+/* Top */
 
 .container__index--top .row {
 	height: 100%;
@@ -51,7 +94,6 @@ body {
 
 .container__index--top .col:first-child {
 	justify-content: stretch;
-	border: 1px solid red;
 }
 
 .container__index--top .col {
@@ -64,6 +106,12 @@ body {
 .container__index--top h1 {
 	margin-bottom: 0;
 	margin-block-end: 0;
+}
+
+/* Resource list */
+
+.resource-list {
+	margin-top: 4rem;
 }
 
 .tagline p {

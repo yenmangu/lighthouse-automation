@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "view_breadcrumbs",
     "dj_svg",
     "tinymce",
+    "django_filters",
     "core.apps.CoreConfig",
     "home",
     "resources",

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+  {% comment %} {% load crispy_forms_tags %} {% endcomment %}
   <div class="container-fluid container__index--top">
     <div class="row mt-2">
       <div class="col col-md-4">
@@ -23,6 +24,41 @@
     <div class="row mt-2 cta">
       <div class="col-12">
         Discover the latest resources below, or <a href="{% url 'resources:subject_list' %}"><span>explore by subject.</span></a>
+      </div>
+    </div>
+    <div class="row my-4 filters">
+      <div class="col-12 col-filter">
+        <h5 class="filter-heading">Filter resources</h5>
+        <form method="get" class="filter-form">
+          <div class="row g-3 form-controls ">
+            <div class="col-md-4 form-controls__title">
+              <label for="{{ filter.form.title.id_for_label }}" class="form-label">{{ filter.form.title.label }}:</label>
+              {{ filter.form.title }}
+            </div>
+            <div class="col-md-4 form-controls__subjects">
+              <label for="{{ filter.form.subjects.id_for_label }}" class="form-label">{{ filter.form.subjects.label }}:</label>
+              {{ filter.form.subjects }}
+            </div>
+            <div class="col-md-4 form-controls__created-on">
+              <label for="{{ filter.form.created_on.id_for_label }}" class="form-label">{{ filter.form.created_on.label }}:</label>
+              {{ filter.form.created_on }}
+            </div>
+            <div class="col">
+              <div class="form-actions gap-2">
+                <button class="btn btn-primary" style="display:inline-block" type="submit">Apply</button>
+                <a class="btn btn-outline-secondary"
+                   style="display:inline-block"
+                   href="{{ request.path }}">Clear</a>
+              </div>
+            </div>
+            {% comment %} <div class="col-6 d-flex gap-2"></div>
+            <div class="col-6 d-flex gap-2"></div> {% endcomment %}
+          </div>
+        </form>
+        {% comment %} <form method="get" class="filter-form">
+          {{ filter.form.as_p }}
+          <button class="btn  btn-primary" type="submit" value="Apply Filters">Submit</button>
+        </form> {% endcomment %}
       </div>
     </div>
   </div>
@@ -76,3 +112,5 @@
     </nav>
   {% endif %}
 {% endblock content %}
+{% block extras %}
+{% endblock extras %}

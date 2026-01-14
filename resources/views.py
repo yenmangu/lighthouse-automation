@@ -20,6 +20,7 @@ from view_breadcrumbs import (
 )
 from .models import Resource, Subject, Comment
 from .forms import CommentForm, ResourceForm
+from .filters import ResourceFilter
 
 # Create your views here.
 
@@ -76,21 +77,42 @@ class ResourceList(
         This is implemented using Q objects to express OR conditions safely,
         ensuring that draft resources are never exposed to non-authors.
         """
+        # TODO: Add filtering
         base_queryset = (
             Resource.objects.all().select_related("author").prefetch_related("subjects")
         )
+
         user = self.request.user
 
+        # New visibility rules
         if user.is_superuser:
-            return base_queryset.order_by("-created_on")
-
-        if user.is_authenticated:
+            visible_queryset = base_queryset
+        elif user.is_authenticated:
             visible_queryset = base_queryset.filter(
                 Q(status="p") | Q(author=user, status="d")
             )
-            return visible_queryset.order_by("-created_on")
+        else:
+            visible_queryset = base_queryset.filter(status="p")
 
-        return base_queryset.filter(status="p").order_by("-created_on")
+        self.resource_filter = ResourceFilter(
+            data=self.request.GET,
+            queryset=visible_queryset,
+        )
+
+        # Return the new queryset from the resource_filter
+        return self.resource_filter.qs
+
+        # Deprecated
+        # if user.is_superuser:
+        #     return base_queryset.order_by("-created_on")
+
+        # if user.is_authenticated:
+        #     visible_queryset = base_queryset.filter(
+        #         Q(status="p") | Q(author=user, status="d")
+        #     )
+        #     return visible_queryset.order_by("-created_on")
+
+        # return base_queryset.filter(status="p").order_by("-created_on")
 
     def get_context_data(self, **kwargs):
         """
@@ -103,6 +125,11 @@ class ResourceList(
             dict: Context dictionary passed to the template.
         """
         context = super().get_context_data(**kwargs)
+        context["filter"] = getattr(
+            self,
+            "resource_filter",
+            None,
+        )
         page_obj = context.get("page_obj")
         return context
 

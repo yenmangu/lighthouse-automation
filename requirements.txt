@@ -13,6 +13,7 @@ dj3-cloudinary-storage==0.0.6
 Django==6.0
 django-allauth==65.13.1
 django-crispy-forms==2.5
+django-filter==25.2
 django-referrer-policy==1.0
 django-summernote==0.8.20.0
 django-tinymce==5.0.0
@@ -21,11 +22,15 @@ djlint==1.36.4
 EditorConfig==0.17.1
 gunicorn==23.0.0
 idna==3.11
+iniconfig==2.3.0
 jsbeautifier==1.15.4
 json5==0.12.1
 packaging==25.0
 pathspec==0.12.1
+pluggy==1.6.0
 psycopg2==2.9.11
+Pygments==2.19.2
+pytest==9.0.2
 PyYAML==6.0.3
 regex==2025.11.3
 requests==2.32.5
