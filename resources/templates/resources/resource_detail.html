@@ -69,7 +69,7 @@
         {% if resource.author == user or user.is_superuser %}
           <div class="container-fluid container__user-actions">
             <div class="row mt-4">
-              <h4>Resource actions</h4>
+              <h2 class="h4">Resource actions</h2>
             </div>
             <div class="row mt-2">
               <div class="col">
@@ -87,30 +87,31 @@
       </div>
     </div>
     <div class="container-fluid container__comments">
-      <h4 class="mt-4">
+      <h2 class="h4 mt-4">
         {% if comments %}
           Comments
         {% else %}
           No comments to show
         {% endif %}
-      </h4>
+      </h2>
       {% for comment in comments %}
         <div class="row mt-4">
           <div class="col-12 card">
             <div class="card-body p-2">
               <div class="row">
                 <div class="container d-flex align-items-baseline comment__info">
-                  <h5 class="card-title">{{ comment.author }}</h5>
+                  <h3 class="h5 card-title d-inline">{{ comment.author }}</h3>
+                  <span class="ms-1">wrote, on</span>
+                  {% with dt=comment.updated_on|default:comment.created_on %}
+                    <time datetime="{{ dt|date:'c' }}" class="ms-1 font-italic">
+                      {{ dt|date:"j F Y" }},
+                      <span class="ms-1">at</span>
+                      {{ dt|time:"H:i" }}
+                      <span>:</span>
+                    </time>
+                    {% if comment.is_updated %}<span class="ms-1 text-muted font-italic">(edited)</span>{% endif %}
+                  {% endwith %}
                   <!-- TODO: Update layout - xxx wrote.. body on .. date -->
-                  <span>&nbsp;wrote on&nbsp;</span>
-                  <em class="card-text">
-                    {% if comment.is_updated %}
-                      {{ comment.updated_on }}
-                    {% else %}
-                      {{ comment.created_on }}
-                    {% endif %}
-                  </em>
-                  <span>&nbsp;:</span>
                 </div>
                 <div class="col-md-10">
                   <div class="comment-body" id="comment{{ comment.id }}">{{ comment.body | linebreaks }}</div>
@@ -150,7 +151,7 @@
         <div class="col-md-8 card mb-4 mt-3 mx-auto">
           <div class="card-body">
             {% if user.is_authenticated %}
-              <h3>Leave a comment:</h3>
+              <h2 class="h3">Leave a comment:</h2>
               <p>Commenting as: {{ user.username }}</p>
               <form id="commentForm" method="post">
                 {{ comment_form | crispy }}

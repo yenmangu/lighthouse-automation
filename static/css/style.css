@@ -39,6 +39,12 @@ body {
 	background-color: #f9fafc;
 }
 
+/* ------------------ Utilty ------------------ */
+
+.font-italic {
+	font-style: italic;
+}
+
 /* ---------------- Breadcrumbs --------------- */
 
 nav[aria-label='breadcrumb'] {
