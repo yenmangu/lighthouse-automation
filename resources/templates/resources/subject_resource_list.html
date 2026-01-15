@@ -4,7 +4,7 @@
   <div class="container my-4">
     {% for resource in resources %}
       <div class="row mb-4">
-        <a href="{% url 'resources:resource_detail' resource.slug %}"
+        <a href="{% url 'resources:resource_detail' slug=resource.slug %}"
            class="card-link">
           <div class="card">
             <div class="card-body">
