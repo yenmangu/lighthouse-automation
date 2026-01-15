@@ -68,7 +68,9 @@ class Resource(models.Model):
     featured_image = CloudinaryField("image", default="placeholder")
     resource_link = models.URLField(blank=True, null=True)
     subjects = models.ManyToManyField(
-        Subject, related_name="all_resources", through=SubjectResourceJoin
+        Subject,
+        related_name="all_resources",
+        through=SubjectResourceJoin,
     )
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="d")
     created_on = models.DateTimeField(auto_now_add=True)
