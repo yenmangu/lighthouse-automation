@@ -275,6 +275,10 @@ form#CommentForm {
 
 /* ----------------- Comments ----------------- */
 
+/* ----------- Subject resource list ---------- */
+.row.resource__image {
+	align-items: start;
+}
 /* ----------------- Svg style ---------------- */
 
 .svg-icon--hover {
