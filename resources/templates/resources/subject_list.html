@@ -12,6 +12,7 @@
           <li class="mb-2">
             <h2 class="h5 mb-2">
               <a href="{% url 'resources:subject_resource_list' subject.slug %}">{{ subject.name }}</a>
+              <span class="text-muted font-italic">{{ subject.resource_count }}</span>
             </h2>
           </li>
         {% endfor %}

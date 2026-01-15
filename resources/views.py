@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django import forms
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
@@ -77,7 +77,6 @@ class ResourceList(
         This is implemented using Q objects to express OR conditions safely,
         ensuring that draft resources are never exposed to non-authors.
         """
-        # TODO: Add filtering
         base_queryset = (
             Resource.objects.all().select_related("author").prefetch_related("subjects")
         )
@@ -101,18 +100,6 @@ class ResourceList(
 
         # Return the new queryset from the resource_filter
         return self.resource_filter.qs
-
-        # Deprecated
-        # if user.is_superuser:
-        #     return base_queryset.order_by("-created_on")
-
-        # if user.is_authenticated:
-        #     visible_queryset = base_queryset.filter(
-        #         Q(status="p") | Q(author=user, status="d")
-        #     )
-        #     return visible_queryset.order_by("-created_on")
-
-        # return base_queryset.filter(status="p").order_by("-created_on")
 
     def get_context_data(self, **kwargs):
         """
@@ -280,8 +267,10 @@ class SubjectsList(ListBreadcrumbMixin, generic.ListView):
         Returns:
             QuerySet: All :model:`resources.Subject` objects.
         """
-        subject_list = super().get_queryset()
-        return subject_list
+
+        return Subject.objects.annotate(
+            resource_count=Count("all_resources"),
+        ).order_by("name")
 
 
 class SubjetResourceListView(
