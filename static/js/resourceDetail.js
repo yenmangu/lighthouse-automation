@@ -30,6 +30,8 @@ const submitBtn = document.getElementById('submitButton');
 if (!commentForm) {
 	throw new Error('Comment form not found');
 }
+
+const hasComments = document.getElementById('hasComments') || null;
 /**
  * Initialise edit functionality for the provided edit buttons
  *
@@ -42,58 +44,69 @@ if (!commentForm) {
  * - Sets the form's action attribute to the `edit_comment/{commentId} endpoint.
  */
 
-for (let btn of editBtns) {
-	btn.addEventListener('click', e => {
-		if (!commentText || !submitBtn) {
-			if (!commentText) console.log('No id_body');
-			if (!submitBtn) console.log('No submitBtn');
+if (hasComments) {
+	console.log('Comments available');
 
-			console.trace('error');
+	for (let btn of editBtns) {
+		console.log(`Button: ${btn}`);
 
-			return;
-		}
+		btn.addEventListener('click', e => {
+			console.log('btn: ', btn, 'clicked');
 
+			if (!commentText || !submitBtn) {
+				if (!commentText) console.log('No id_body');
+				if (!submitBtn) console.log('No submitBtn');
+
+				console.trace('error');
+
+				return;
+			}
+
+			const event = /** @type {MouseEvent} */ (e);
+			const target = /** @type {HTMLElement} */ (event.currentTarget);
+			const commentId = target.getAttribute('data-comment-id');
+			console.log('currentTarget: ', target);
+
+			const editUrl = target.dataset.editUrl;
+			if (!editUrl) {
+				throw new Error('No edit url found in dataset');
+			}
+			console.log('Edit url: ', editUrl);
+
+			const commentContent =
+				document.getElementById(`comment${commentId}`)?.innerText ?? '';
+
+			const commentInput = /** @type {HTMLInputElement} */ (commentText);
+			commentInput.value = commentContent;
+			submitBtn.innerText = 'Update';
+			commentForm.action = editUrl;
+
+			// (`edit_comment/${commentId}`);
+		});
+	}
+
+	for (let btn of commentDeleteButtons) {
+		btn.addEventListener('click', e => {
+			const target = /** @type {HTMLElement} */ (e.currentTarget);
+			const deleteUrl = target.dataset.deleteUrl;
+			if (!deleteUrl) {
+				throw new Error('No delete url provided');
+			}
+			const deleteModal = new bootstrap.Modal(deleteModalRef);
+			deleteForm.action = deleteUrl;
+			deleteModal.show();
+		});
+	}
+
+	deleteButton.addEventListener('click', e => {
 		const event = /** @type {MouseEvent} */ (e);
 		const target = /** @type {HTMLElement} */ (event.currentTarget);
-		const commentId = target.getAttribute('data-comment-id');
-		const editUrl = target.dataset.editUrl;
-		if (!editUrl) {
-			throw new Error('No edit url found in dataset');
-		}
-
-		const commentContent =
-			document.getElementById(`comment${commentId}`)?.innerText ?? '';
-
-		const commentInput = /** @type {HTMLInputElement} */ (commentText);
-		commentInput.value = commentContent;
-		submitBtn.innerText = 'Update';
-		commentForm.action = editUrl;
-
-		// (`edit_comment/${commentId}`);
-	});
-}
-
-for (let btn of commentDeleteButtons) {
-	btn.addEventListener('click', e => {
-		const target = /** @type {HTMLElement} */ (e.currentTarget);
-		const deleteUrl = target.dataset.deleteUrl;
-		if (!deleteUrl) {
-			throw new Error('No delete url provided');
-		}
 		const deleteModal = new bootstrap.Modal(deleteModalRef);
-		deleteForm.action = deleteUrl;
+
+		if (!target.dataset.deleteUrl) {
+			throw new Error('No delete url defined');
+		}
+		deleteForm.action = target.dataset.deleteUrl;
 		deleteModal.show();
 	});
 }
-
-deleteButton.addEventListener('click', e => {
-	const event = /** @type {MouseEvent} */ (e);
-	const target = /** @type {HTMLElement} */ (event.currentTarget);
-	const deleteModal = new bootstrap.Modal(deleteModalRef);
-
-	if (!target.dataset.deleteUrl) {
-		throw new Error('No delete url defined');
-	}
-	deleteForm.action = target.dataset.deleteUrl;
-	deleteModal.show();
-});

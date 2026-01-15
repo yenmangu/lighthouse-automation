@@ -86,14 +86,8 @@
         {% endif %}
       </div>
     </div>
+    {% if comments %}<div id="hasComments" class="visually-hidden"></div>{% endif %}
     <div class="container-fluid container__comments">
-      <h2 class="h4 mt-4">
-        {% if comments %}
-          Comments
-        {% else %}
-          No comments to show
-        {% endif %}
-      </h2>
       {% for comment in comments %}
         <div class="row mt-4">
           <div class="col-12 card">
@@ -143,6 +137,10 @@
               </div>
             </div>
           </div>
+        </div>
+      {% empty %}
+        <div class="container text-center my-4" id="noComments">
+          <h2 class="h3">No comments to show</h2>
         </div>
       {% endfor %}
     </div>
