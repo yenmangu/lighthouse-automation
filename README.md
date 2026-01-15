@@ -2,6 +2,10 @@
 
 ## Overview
 
+StudyStack is a community-powered study resource library where users can create, browse, and discover learning materials shared by other students. Resources are organised by subject and type, making it easy to find relevant content quickly. Authenticated users can manage their own resources and participate in discussion via comments.
+
+The project was built with Django using server-rendered templates and follows an accessibility-first, mobile-first approach aligned to WCAG 2.1 AA and the Code Institute Level 5 specification.
+
 ## Glossary
 
 ## UX
@@ -83,21 +87,18 @@ I used [Coolors]() to generate the following pallete from my chosen colours.
 
 ### Imagery
 
-- High-quality, attribution-checked food photography, all with descriptive alt text
+- User-uploaded preview images are supported for resources (with safe placeholder handling for missing images).
+- All resource thumbnails include descriptive `alt` text to support screen reader users.
+- Decorative icons are either labelled appropriately (when interactive) or hidden from assistive technologies.
 
-  > see [Credits](#foodstock-images--icons) for specific attribution.
+  > see [Credits](#stock-images--icons) for specific attribution.
 
 ### Interactivity & Feedback
 
-- Buttons/links have visible hover/active states and ARIA labels
-- “Liked”/“favourited” status is animated for positive feedback
-- Error states and loading are clearly communicated to users
-
-**Accessibility Commitment**
-
-- Colour contrast meets or exceeds WCAG 2.1 AA where possible
-- All navigation and controls are fully keyboard-accessible
-- ARIA labels, roles, and focus indicators are included for all interactive elements
+- Resource browsing supports filtering and clear empty states (distinct messaging for “no results” vs “no resources yet”).
+- Users receive immediate feedback after key actions (create, update, delete) via Django messages.
+- Comment edit/delete controls use icon buttons with descriptive `aria-label` values.
+- Destructive actions are confirmed via a modal to prevent accidental deletion.
 
 ## Project Planning & Agile Methodology
 
@@ -153,22 +154,22 @@ The table below outlines the features implemented in **StudyStack**, mapped to t
 
 | Feature                                 | User Story ID | MoSCoW Priority | Implemented |
 | --------------------------------------- | ------------- | --------------- | ----------- |
-| View Home Page & Site Purpose           | 01            | **Must Have**   | ❌          |
-| User Registration                       | 02            | **Must Have**   | ❌          |
-| User Login & Logout                     | 03            | **Must Have**   | ❌          |
-| Browse Study Resources                  | 04            | **Must Have**   | ❌          |
-| Search Study Resources                  | 05            | **Should Have** | ❌          |
-| Filter Resources by Topic & Type        | 06            | **Could Have**  | ❌          |
-| View Resource Detail Page               | 07            | **Must Have**   | ❌          |
-| Create Study Resource                   | 08            | **Must Have**   | ❌          |
-| Edit Own Study Resource                 | 09            | **Must Have**   | ❌          |
-| Delete Own Study Resource               | 10            | **Must Have**   | ❌          |
-| Add Comment to Resource                 | 11            | **Should Have** | ❌          |
-| Delete Own Comment                      | 12            | **Should Have** | ❌          |
-| Admin Content Management (Django Admin) | 13            | **Could Have**  | ❌          |
-| Form Validation & Error Feedback        | 14            | **Must Have**   | ❌          |
-| Responsive Design (Mobile–Desktop)      | 15            | **Must Have**   | ❌          |
-| Security & Permissions Enforcement      | 16            | **Must Have**   | ❌          |
+| View Home Page & Site Purpose           | 01            | **Must Have**   | ✅          |
+| User Registration                       | 02            | **Must Have**   | ✅          |
+| User Login & Logout                     | 03            | **Must Have**   | ✅          |
+| Browse Study Resources                  | 04            | **Must Have**   | ✅          |
+| Search Study Resources                  | 05            | **Should Have** | ✅          |
+| Filter Resources by Topic & Type        | 06            | **Could Have**  | ✅          |
+| View Resource Detail Page               | 07            | **Must Have**   | ✅          |
+| Create Study Resource                   | 08            | **Must Have**   | ✅          |
+| Edit Own Study Resource                 | 09            | **Must Have**   | ✅          |
+| Delete Own Study Resource               | 10            | **Must Have**   | ✅          |
+| Add Comment to Resource                 | 11            | **Should Have** | ✅          |
+| Delete Own Comment                      | 12            | **Should Have** | ✅          |
+| Admin Content Management (Django Admin) | 13            | **Could Have**  | ✅          |
+| Form Validation & Error Feedback        | 14            | **Must Have**   | ✅          |
+| Responsive Design (Mobile–Desktop)      | 15            | **Must Have**   | ✅          |
+| Security & Permissions Enforcement      | 16            | **Must Have**   | ✅          |
 
 #### Filtering Behaviour
 
@@ -378,9 +379,6 @@ GitHub Issues were used to document, discuss, and resolve individual tasks, bugs
 MoSCoW (Must, Should, Could, Won’t Have) was used throughout the project to prioritise user stories and features.
 For a full explanation and breakdown, see [MoSCoW Prioritisation](#moscow-prioritisation) under User Stories and Features.
 
-> [!NOTE]
-> See [Complex Search](COMPLEX_SEARCH.md) for MoSCoW prioritisation of the full [complexSearch](https://spoonacular.com/food-api/docs#Search-Recipes-Complex) endpoint
-
 ## Development Bugs
 
 | Bug/Issue | Diagnosis | Fix | Commit Ref |
@@ -397,17 +395,13 @@ For a full explanation and breakdown, see [MoSCoW Prioritisation](#moscow-priori
 
 ### Local Development
 
-> [!IMPORTANT]
-> While all of the code is open source, the Node.js API proxy enforces CORS with an allowed origin list for security.
->
-> - If you wish to use the official Node.js proxy, please contact the author to request your origin be added.
-> - Alternatively, you are welcome to fork this repo and deploy your own proxy.
-> - To connect directly to Spoonacular, you’ll need your own (free) API key:
->   [Spoonacular API Portal](https://spoonacular.com/food-api/)
+1. Clone the repository.
+2. Create and activate a virtual environment.
+3. Install dependencies from `requirements.txt`.
+4. Create an `env.py` file with required environment variables.
+5. Run migrations and start the server.
 
-**Note:**
-By default, the StudyStack front-end app expects the proxy to be available at the configured API base URL.
-You can override this in your environment if running your own version.
+Further setup details are provided in the Deployment section and project documentation.
 
 #### Cloning
 
@@ -433,28 +427,22 @@ A detailed explanation of the accessibility standards followed, design decisions
 
 ### Approach
 
-The app adheres to [WCAG 2.1 AA](https://www.w3.org/TR/WCAG21/) principles, prioritising clarity, contrast, and consistent interaction patterns.
-Keyboard navigation, ARIA labelling, and semantic HTML were implemented across all pages to support screen readers and alternative input devices.
-Focus states are always visible, and users can operate all controls — including toggles and navigation — without a mouse.
+StudyStack follows WCAG 2.1 AA principles with a focus on semantic HTML, predictable navigation, and clear user feedback. Pages use meaningful heading structure (`h1`–`h2`–`h3`), keyboard-accessible controls, and labelled interactive elements (including icon buttons).
 
 ### Testing
 
 Accessibility was evaluated throughout development using:
 
-- **Manual keyboard testing** to confirm tab order and logical navigation flow.
-- **Automated audits** via Lighthouse and WAVE to detect colour-contrast or ARIA issues.
-- **HTML / CSS validation** using W3C validators to maintain semantic integrity.
+- Manual keyboard testing (tab order, focus visibility, modal behaviour)
+- Lighthouse and WAVE audits (contrast, ARIA usage, structural issues)
+- W3C HTML and CSS validation for semantic correctness
 
 ### Outcome
 
-The result is a mobile-first web application that meets modern accessibility expectations:
-
-- Fully navigable and operable by keyboard alone
-- Screen-reader friendly through meaningful structure and ARIA support
-- Clear focus indicators and responsive, legible typography
-- Accessible colour contrast and error feedback messaging
-
-StudyStack’s accessibility implementation satisfies the Code Institute Level 5 requirements for an interactive front-end project and demonstrates professional, user-centred design practice.
+- All key workflows are operable by keyboard alone
+- Important feedback messages are announced via accessible alert semantics
+- Pages provide clear orientation using meaningful titles and heading hierarchy
+- Forms and controls include descriptive labels and do not rely on colour alone
 
 ## Credits
 
@@ -474,7 +462,7 @@ StudyStack’s accessibility implementation satisfies the Code Institute Level 5
 
 ### Media
 
-#### Food/Stock Images & Icons
+#### Stock Images & Icons
 
 | Media | Attribution |
 | ----- | ----------- |
@@ -495,6 +483,26 @@ StudyStack follows a user-centred, inclusive design philosophy in line with
 
 Accessibility considerations were applied throughout the design and development process, covering layout, navigation, interaction, and content presentation.
 
+### User Feedback & Messaging
+
+StudyStack provides clear, timely feedback in response to user actions such as creating,
+updating, deleting, or filtering resources.
+
+User feedback is implemented using Django’s built-in messaging framework and rendered
+consistently across the application as dismissible alert components. These alerts are
+announced to assistive technologies using appropriate ARIA semantics (`role="alert"`),
+ensuring that important feedback is immediately communicated to screen reader users.
+Alerts are implemented as dismissible Bootstrap components and include `role="alert"` and `aria-live` semantics so feedback is announced to screen reader users.
+
+Messages are used to confirm successful actions, communicate permission restrictions,
+and indicate empty states (for example, when no resources match selected filters).
+This prevents ambiguity and ensures that users are never left without contextual feedback
+following an interaction.
+
+All feedback mechanisms are accessible via keyboard navigation and do not rely solely on
+visual cues such as colour or iconography, supporting an inclusive experience for users
+with varying access needs.
+
 ### Design & Layout
 
 - Colour palette verified for WCAG AA contrast compliance.
@@ -510,7 +518,7 @@ Accessibility considerations were applied throughout the design and development 
 ### Media & Feedback
 
 - Images include meaningful `alt` text; decorative elements use empty alt attributes or `aria-hidden="true"`.
-- Live content updates use ARIA live regions to announce changes to screen-reader users.
+- Django feedback messages are rendered using ARIA live regions so updates are announced to screen reader users.
 - Error states and progress indicators provide clear, plain-language feedback.
 
 ### Validation & Testing
