@@ -381,8 +381,15 @@ For a full explanation and breakdown, see [MoSCoW Prioritisation](#moscow-priori
 
 ## Development Bugs
 
-| Bug/Issue | Diagnosis | Fix | Commit Ref |
-| --------- | --------- | --- | ---------- |
+| Bug / Issue                                           | Diagnosis                                                                                                              | Fix                                                                                                 |
+| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Cloudinary placeholder images returned 404 errors     | `CloudinaryField(default="placeholder")` is always truthy; accessing `.url` triggered requests for non-existent assets | Checked `featured_image.public_id` before accessing `.url` and guarded image rendering in templates |
+| Edited comments displayed incorrect timestamp         | Template always rendered `created_on`, ignoring `updated_on` when comments were edited                                 | Resolved datetime via template logic and rendered using a semantic `<time>` element                 |
+| Invalid heading hierarchy failed accessibility checks | Heading levels were skipped due to Bootstrap styling choices                                                           | Corrected semantic heading levels while preserving visual appearance with utility classes           |
+| Subject list count query raised ORM field error       | Incorrect field name used in `annotate()` instead of the model `related_name`                                          | Updated the query to reference the correct reverse relation                                         |
+| Filtered resource list rendered a blank page          | No empty-state handling when filters returned zero results                                                             | Added explicit, user-friendly empty-state messaging                                                 |
+| Resource deletion could be triggered via GET request  | Default `DeleteView` allowed deletion via GET requests                                                                 | Redirected GET requests and enforced POST-only deletion                                             |
+| Screen readers did not announce feedback messages     | Django alerts lacked ARIA live semantics                                                                               | Added `role="alert"` and `aria-live` attributes to feedback messages                                |
 
 ## Testing
 
