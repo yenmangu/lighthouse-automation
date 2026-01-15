@@ -448,8 +448,16 @@ Accessibility was evaluated throughout development using:
 
 ### Credits For Specific Features
 
-| Feature | Source | Notes |
-| ------- | ------ | ----- |
+| Feature                                  | Source                                                                                                     | Notes                                                                                      |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Resource filtering (django-filter)       | [django-filter documentation](https://django-filter.readthedocs.io/en/stable/)                             | Used to implement subject-based filtering with AND semantics and pagination support.       |
+| Authentication (login, logout, register) | [Django Authentication System](https://docs.djangoproject.com/en/stable/topics/auth/)                      | Built-in Django auth used for user accounts, permissions, and access control.              |
+| Forms & validation                       | [Django Forms](https://docs.djangoproject.com/en/stable/topics/forms/)                                     | ModelForms used for resource creation, editing, and validation feedback.                   |
+| Messaging & user feedback                | [Django Messages Framework](https://docs.djangoproject.com/en/stable/ref/contrib/messages/)                | Used to provide accessible success, error, and empty-state feedback via ARIA live regions. |
+| Slug generation                          | [django.utils.text.slugify](https://docs.djangoproject.com/en/stable/ref/utils/#django.utils.text.slugify) | Used to generate URL-friendly slugs for resources and subjects.                            |
+| Pagination                               | [Django Pagination](https://docs.djangoproject.com/en/stable/topics/pagination/)                           | Used to paginate resource lists for performance and usability.                             |
+| Responsive layout                        | [Bootstrap 5](https://getbootstrap.com/docs/5.3/)                                                          | Grid system and utility classes used for layout and responsive design.                     |
+| Iconography                              | [Font Awesome](https://fontawesome.com/) / custom SVGs                                                     | Icons used sparingly with ARIA labels to support accessibility.                            |
 
 ### Other Credits
 
