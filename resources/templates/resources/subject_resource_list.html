@@ -2,18 +2,48 @@
 {% block content %}
   {% load static %}
   <div class="container my-4">
-    {% for resource in resources %}
-      <div class="row mb-4">
-        <a href="{% url 'resources:resource_detail' slug=resource.slug %}"
-           class="card-link">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">{{ resource.title }}</h5>
-              <div class="card-text">{{ resource.description }}</div>
-            </div>
-          </a>
-        </div>
-      </div>
-    {% endfor %}
+    <header class="my-4">
+      <h1>Resources for {{ subject.name }}</h1>
+      <p class="text-muted mb-0">Browse all study resources tagged with this subject.</p>
+    </header>
+    {% if resources %}
+      <ul class="list-unstyled">
+        {% for resource in resources %}
+          <li class="mb-3">
+            <article class="card">
+              <div class="row g-0 resource__image">
+                <div class="col-3 col-md-2">
+                  {% with image=resource.featured_image %}
+                    {% if image.public_id == "placeholder" %}
+                      <img src="{% static 'images/default.jpg' %}"
+                           class="img-fluid rounded-start"
+                           alt="No preview image available for {{ resource.title }}">
+                    {% else %}
+                      <img src="{{ image.url }}"
+                           class="img-fluid rounded-start"
+                           alt="Preview image for {{ resource.title }}">
+                    {% endif %}
+                  {% endwith %}
+                </div>
+                <div class="col">
+                  <div class="card-body">
+                    <h2 class="h5 card-title mb-2">
+                      <a href="{% url 'resources:resource_detail' slug=resource.slug %}"
+                         class="card-link">{{ resource.title }}</a>
+                    </h2>
+                    {% if resource.description %}<div class="card-text">{{ resource.description|safe }}</div>{% endif %}
+                  </div>
+                </div>
+              </div>
+            </article>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No resources have been added for this subject yet.</p>
+      <p class="mb-0">
+        <a href="{% url 'resources:subject_list' %}">Back to subjects.</a>
+      </p>
+    {% endif %}
   </div>
 {% endblock content %}
