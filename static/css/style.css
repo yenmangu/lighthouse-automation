@@ -2,24 +2,24 @@
 
 /* Global */
 
-body {
+/* body {
 	background-color: #f9fafc;
-}
+} */
 
 /* Remove default link styling for cards wrapped in anchor tags */
-.card-link,
+/* .card-link,
 .card-body,
 .card-text {
 	text-decoration: none;
 	color: var(--bs-card-color);
-}
+} */
 
-.brand {
+/* .brand {
 	font-family: Lato, sans-serif;
 	font-size: 1.4rem;
 	font-weight: 700;
 	color: #4a4a4f;
-}
+} */
 
 .red-o {
 	color: #e84610;
@@ -27,18 +27,6 @@ body {
 
 .thin {
 	font-weight: 300;
-}
-
-.light-bg {
-	background-color: #fff;
-}
-
-.dark-bg {
-	background-color: #445261;
-}
-
-.main-bg {
-	background-color: #f9fafc;
 }
 
 /* ------------------ Utilty ------------------ */
@@ -187,24 +175,6 @@ ol.breadcrumb {
 	overflow: hidden;
 }
 
-.masthead__image:after {
-	content: '';
-	position: absolute;
-	top: 0;
-	right: 90%;
-	height: 100%;
-	width: 150%;
-	background: #445261;
-	-webkit-transform: skew(15deg);
-	-moz-transform: skew(15deg);
-	transform: skew(15deg);
-	z-index: 100;
-}
-
-.profile__image {
-	width: 75%;
-}
-
 .resource__link {
 	text-decoration: none;
 	color: #445261;
@@ -265,14 +235,6 @@ ol.breadcrumb {
 	color: #e84610;
 	background: transparent;
 	border: none;
-}
-
-.faded {
-	color: rgb(172, 175, 175);
-}
-
-.approval {
-	color: rgb(222, 146, 168);
 }
 
 form#CommentForm {
