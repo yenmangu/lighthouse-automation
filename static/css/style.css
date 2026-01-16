@@ -269,6 +269,13 @@ form#CommentForm {
 
 /* --------------- Media Queries -------------- */
 
+@media (max-width: 991.98px) {
+	.offcanvas {
+		width: 90vw;
+		max-width: 360px;
+	}
+}
+
 @media (min-width: 768px) {
 	.form-actions {
 		justify-content: flex-end;
