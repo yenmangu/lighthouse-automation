@@ -1,23 +1,25 @@
+@import './theme.css';
+
 /* Global */
 
-body {
+/* body {
 	background-color: #f9fafc;
-}
+} */
 
 /* Remove default link styling for cards wrapped in anchor tags */
-.card-link,
+/* .card-link,
 .card-body,
 .card-text {
 	text-decoration: none;
 	color: var(--bs-card-color);
-}
+} */
 
-.brand {
+/* .brand {
 	font-family: Lato, sans-serif;
 	font-size: 1.4rem;
 	font-weight: 700;
 	color: #4a4a4f;
-}
+} */
 
 .red-o {
 	color: #e84610;
@@ -27,23 +29,53 @@ body {
 	font-weight: 300;
 }
 
-.light-bg {
-	background-color: #fff;
+/* ------------------ Utilty ------------------ */
+
+.font-italic {
+	font-style: italic;
 }
 
-.dark-bg {
-	background-color: #445261;
+.font-bold {
+	font-weight: 600;
 }
 
-.main-bg {
-	background-color: #f9fafc;
+/* ---------------- Breadcrumbs --------------- */
+
+nav[aria-label='breadcrumb'] {
+	padding-left: 1rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	background-color: #bdbdbd;
+}
+
+ol.breadcrumb {
+	margin-bottom: 0.2rem;
 }
 
 /* ------------------- Index ------------------ */
 
-.container__index--top {
-	border: 2px solid greenyellow;
+/* Branding */
+
+.branding h1 {
+	margin-bottom: auto;
 }
+
+.tagline p {
+	margin-bottom: 0.25rem;
+	margin-block-end: 0;
+}
+
+.tagline p:last-child {
+	margin-top: 0.5rem;
+}
+
+/* Mission Statement */
+
+.mission-statement p:last-child {
+	margin-bottom: 0;
+}
+
+/* Top */
 
 .container__index--top .row {
 	height: 100%;
@@ -51,7 +83,6 @@ body {
 
 .container__index--top .col:first-child {
 	justify-content: stretch;
-	border: 1px solid red;
 }
 
 .container__index--top .col {
@@ -61,13 +92,36 @@ body {
 	/* justify-content: flex-end; */
 }
 
-.container__index--top h1 {
-	margin-bottom: 0;
-	margin-block-end: 0;
+/* Filter Form */
+
+.filter-heading {
+	width: 100%;
+	margin-bottom: 1rem;
+	border-bottom: 2px solid #bdbdbd;
 }
 
-.tagline p {
-	margin-block-end: 0;
+.form-controls__title,
+.form-controls__subjects,
+.form-controls__created-on {
+	display: flex;
+	flex-direction: column;
+}
+
+.form-controls .form-label {
+	margin-bottom: 0.25rem;
+}
+
+/* Actions */
+.form-actions {
+	display: flex;
+	flex-direction: row;
+	gap: 0.75rem;
+}
+
+/* Resource list */
+
+.resource-list {
+	margin-top: 4rem;
 }
 
 .card {
@@ -119,24 +173,6 @@ body {
 .masthead__image {
 	position: relative;
 	overflow: hidden;
-}
-
-.masthead__image:after {
-	content: '';
-	position: absolute;
-	top: 0;
-	right: 90%;
-	height: 100%;
-	width: 150%;
-	background: #445261;
-	-webkit-transform: skew(15deg);
-	-moz-transform: skew(15deg);
-	transform: skew(15deg);
-	z-index: 100;
-}
-
-.profile__image {
-	width: 75%;
 }
 
 .resource__link {
@@ -201,14 +237,6 @@ body {
 	border: none;
 }
 
-.faded {
-	color: rgb(172, 175, 175);
-}
-
-.approval {
-	color: rgb(222, 146, 168);
-}
-
 form#CommentForm {
 	margin-top: 1.3em;
 }
@@ -221,6 +249,10 @@ form#CommentForm {
 
 /* ----------------- Comments ----------------- */
 
+/* ----------- Subject resource list ---------- */
+.row.resource__image {
+	align-items: start;
+}
 /* ----------------- Svg style ---------------- */
 
 .svg-icon--hover {
@@ -233,4 +265,19 @@ form#CommentForm {
 
 .icon-btn:hover .svg-icon--hover {
 	display: inline-block;
+}
+
+/* --------------- Media Queries -------------- */
+
+@media (max-width: 991.98px) {
+	.offcanvas {
+		width: 90vw;
+		max-width: 360px;
+	}
+}
+
+@media (min-width: 768px) {
+	.form-actions {
+		justify-content: flex-end;
+	}
 }
