@@ -1,0 +1,24 @@
+{
+  "name": "studystack",
+  "version": "1.0.0",
+  "description": "StudyStack is a community-powered study resource library where users can create, browse, and discover learning materials shared by other students. Resources are organised by subject and type, making it easy to find relevant content quickly. Authenticated users can manage their own resources and participate in discussion via comments.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yenmangu/ci-ms-3-studystack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/yenmangu/ci-ms-3-studystack/issues"
+  },
+  "homepage": "https://github.com/yenmangu/ci-ms-3-studystack#readme",
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.10"
+  }
+}
