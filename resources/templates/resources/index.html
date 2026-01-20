@@ -43,9 +43,9 @@
                   data-bs-target="#filtersOffcanvas"
                   aria-controls="filtersOffcanvas">Open Filters</button>
         </div>
-        <!-- Desktop: inline filters form -->
-        <div class="d-none d-lg-block" id="desktopMount">{% include "resources/partials/_filters_form.html" %}</div>
-        <!-- Mobile: offcanvas filters form -->
+        <!-- Desktop: inline filters form mount point -->
+        <div class="d-none d-lg-block" id="desktopMount"></div>
+        <!-- Mobile: offcanvas filters form mount point -->
         <div class="offcanvas offcanvas-start d-lg-none"
              tabindex="-1"
              id="filtersOffcanvas"
@@ -59,7 +59,7 @@
                     data-bs-dismiss="offcanvas"
                     aria-label="Close"></button>
           </div>
-          <div class="offcanvas-body">{% include "resources/partials/_filters_form.html" %}</div>
+          <div class="offcanvas-body" id="mobileMount">{% include "resources/partials/_filters_form.html" %}</div>
         </div>
       </div>
     </div>
@@ -121,6 +121,10 @@
       </ul>
     </nav>
   {% endif %}
+  <template>
+    {% include "resources/partials/_filters_form.html" %}
+  </template>
 {% endblock content %}
 {% block extras %}
+  <script src="{% static 'js/filterForm.js' %}"></script>
 {% endblock extras %}
