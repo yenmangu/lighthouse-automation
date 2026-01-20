@@ -13,18 +13,28 @@ Testing has been carried out throughout development using a combination of **aut
 
 ### HTML
 
-All rendered HTML templates were validated using the recommended **W3C HTML Validator**. As this is a Django project, validation was performed against the rendered pages served by the deployed application rather than raw template files.
+> [!NOTE]
+> HTML validation was carried out using a [**custom Python CLI tool**](https://github.com/yenmangu/w3c-command-line-validator) that consumes the **W3C Nu HTML Checker HTTP API**.
+>
+> Validation was performed **against deployed URLs**, ensuring that the results reflect the fully rendered production state of the application rather than local templates.
+>
+> The tool was run against all major routes in the application, including authenticated pages and querystring-based routes.
+>
+> **Full validation output is provided as evidence** in the following report:
+>
+> [Validation Report](documentation/validation/w3c-validation-report-20_01_26.txt)
 
-| Page / Template      | URL (Deployed) | Result | Screenshot                               |
-| -------------------- | -------------- | ------ | ---------------------------------------- |
-| Home / Resource List | Deployed site  | Pass   | documentation/validation/html_home.png   |
-| Resource Detail      | Deployed site  | Pass   | documentation/validation/html_detail.png |
-| Resource Create      | Deployed site  | Pass   | documentation/validation/html_create.png |
-| Resource Update      | Deployed site  | Pass   | documentation/validation/html_update.png |
-| Resource Delete      | Deployed site  | Pass   | documentation/validation/html_delete.png |
-| Authentication Pages | Deployed site  | Pass   | documentation/validation/html_auth.png   |
+| Page / Template      | URL (Deployed) | Result | Evidence   |
+| -------------------- | -------------- | ------ | ---------- |
+| Home / Resource List | Deployed site  | Pass   | See report |
+| Resource Detail      | Deployed site  | Pass   | See report |
+| Resource Create      | Deployed site  | Pass   | See report |
+| Resource Update      | Deployed site  | Pass   | See report |
+| Resource Delete      | Deployed site  | Pass   | See report |
+| Authentication Pages | Deployed site  | Pass   | See report |
 
-No HTML errors or warnings affecting functionality or accessibility were reported.
+No HTML errors were reported for any validated routes.
+Any informational messages returned by the validator did not affect functionality, accessibility, or document validity.
 
 ---
 
@@ -32,11 +42,19 @@ No HTML errors or warnings affecting functionality or accessibility were reporte
 
 All custom CSS files were validated using the **W3C Jigsaw CSS Validator**.
 
-| File           | Purpose                        | Result | Screenshot                                  |
-| -------------- | ------------------------------ | ------ | ------------------------------------------- |
-| base.css       | Global site styles             | Pass   | documentation/validation/css_base.png       |
-| components.css | Component-specific styles      | Pass   | documentation/validation/css_components.png |
-| theme.css      | Colour variables and overrides | Pass   | documentation/validation/css_theme.png      |
+> [!NOTE]
+> The W3C Jigsaw CSS Validator reports warnings when validating CSS Custom Properties that reference other custom properties using `var()`.
+>
+> In this project, a layered design-token approach is used in `theme.css`, where semantic colour variables (e.g. `--ss-academic-blue`) are derived from base variables. While this is fully valid and supported by all modern browsers, the validator’s static analysis cannot resolve nested `var()` references and therefore reports false-positive colour errors.
+>
+> These messages do not indicate invalid CSS and do not affect rendering, accessibility, or browser compatibility.
+>
+> CSS custom properties are a core feature of modern CSS and are used extensively by frameworks such as Bootstrap 5.
+
+| File      | Purpose                   | Result | Screenshot                                                         |
+| --------- | ------------------------- | ------ | ------------------------------------------------------------------ |
+| style.css | Custom site styles        | Pass   | ![screenshot](./documentation/validation/style-css-validation.png) |
+| theme.css | Component-specific styles | Fail   | ![screenshot](./documentation/validation/theme-css-validation.png) |
 
 Any warnings encountered were related to modern CSS features and did not impact browser support or accessibility.
 
@@ -191,5 +209,3 @@ Testing demonstrates that **StudyStack** is:
 - Secure against unauthorised actions
 - Responsive and accessible
 - Robust in handling invalid input
-
-This satisfies the testing requirements for **LO1.5** and **Merit criterion M(vi)** of the assessment rubric.
