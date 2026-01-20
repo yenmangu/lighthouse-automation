@@ -28,13 +28,38 @@
  */
 
 // 1.0 - ensure Node can run this file
+// 1.1 - ensure output folder can be written to
+// - `./documentation/lighthouse/reports/`
+// -- need file system
 
+import fs from 'node:fs';
+import path from 'path';
 import process from 'node:process';
 
 const DEFAULT_URL = 'https://example.com';
 
+/**
+ *
+ * @param {string} dirPath
+ * @returns
+ */
+function ensureDirExists(dirPath) {
+	if (fs.existsSync(dirPath)) {
+		return;
+	}
+	fs.mkdirSync(dirPath, { recursive: true });
+}
 async function main() {
 	const targetUrl = process.argv[2] ?? DEFAULT_URL;
+
+	const outputDir = path.resolve(
+		process.cwd(),
+		'documentation',
+		'lighthouse',
+		'reports'
+	);
+	console.log('outputdir: ', outputDir);
+	ensureDirExists(outputDir);
 
 	console.log(`[Lighthouse-Runner] Target URL: ${targetUrl}`);
 	console.log(`[Lighthouse-Runner] Next - run Lighthouse and save a report`);
