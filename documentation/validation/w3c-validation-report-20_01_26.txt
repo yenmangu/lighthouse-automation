@@ -1,0 +1,49 @@
+================================================================================
+https://study-stack-63fdd524a632.herokuapp.com/
+================================================================================
+Errors: 0 | Infos: 0 | Non-doc: 0
+
+No validation errors found.
+
+================================================================================
+https://study-stack-63fdd524a632.herokuapp.com/accounts/signup/
+================================================================================
+Errors: 0 | Infos: 0 | Non-doc: 0
+
+No validation errors found.
+
+================================================================================
+https://study-stack-63fdd524a632.herokuapp.com/accounts/login/
+================================================================================
+Errors: 0 | Infos: 0 | Non-doc: 0
+
+No validation errors found.
+
+================================================================================
+https://study-stack-63fdd524a632.herokuapp.com/resources/python-tutorial-official/
+================================================================================
+Errors: 0 | Infos: 3 | Non-doc: 0
+
+No validation errors found.
+
+================================================================================
+https://study-stack-63fdd524a632.herokuapp.com/subjects/
+================================================================================
+Errors: 0 | Infos: 0 | Non-doc: 0
+
+No validation errors found.
+
+================================================================================
+https://study-stack-63fdd524a632.herokuapp.com/?title=python&created_on=
+================================================================================
+Errors: 0 | Infos: 0 | Non-doc: 0
+
+No validation errors found.
+
+================================================================================
+https://study-stack-63fdd524a632.herokuapp.com/subjects/algorithms/
+================================================================================
+Errors: 0 | Infos: 0 | Non-doc: 0
+
+No validation errors found.
+
