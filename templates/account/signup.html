@@ -22,7 +22,16 @@
                       method="post"
                       action="{% url 'account_signup' %}">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                                <div class="form-text" id="{{ field.auto_id }}_helptext">{{ field.help_text|safe }}</div>
+                            {% endif %}
+                            {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+                        </div>
+                    {% endfor %}
                     {% if redirect_field_value %}
                         <input type="hidden"
                                name="{{ redirect_field_name }}"
