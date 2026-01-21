@@ -113,12 +113,26 @@ export class ArgParser {
 	 *
 	 * Note: Keeping unknown tokens for use in phase 2
 	 *
+	 * P2: Recognise known flags
+	 * - capture known flags (based on cliFlags lookup)
+	 * - still keep unknown flags
 	 *
+	 * return shape =
+	 * {...P1ReturnShape, knownFlags}
+	 *
+	 * Caveats:
+	 * - Ensure short and verbose flags are matched correctly
+	 * - Don't mutate options yet
 	 *
 	 *
 	 *
 	 * @param {string[]} argv
-	 * @returns {{options:any, positionals:string[], unknowns:string[]}}
+	 * @returns {{
+	 * options:any,
+	 * positionals:string[],
+	 * unknowns:string[],
+	 * knownFlags: string[]
+	 * }}
 	 */
 	parse(argv) {
 		const options = {};
@@ -129,16 +143,39 @@ export class ArgParser {
 		/** @type {string[]} */
 		const unknowns = [];
 
+		/** @type {string[]} */
+		const knownFlags = [];
+
 		for (let i = 0; i < argv.length; i++) {
 			const token = argv[i];
 			if (!this.#looksLikeFlag(token)) {
 				positionals.push(token);
 			} else {
-				unknowns.push(token);
+				const matchedFlagKey = this.#matchKnownFlagKey(token);
+
+				if (matchedFlagKey) {
+					knownFlags.push(matchedFlagKey);
+				} else {
+					unknowns.push(token);
+				}
 			}
 		}
 
-		return { options, positionals, unknowns };
+		return { options, positionals, unknowns, knownFlags };
+	}
+
+	/**
+	 *
+	 * @param {string} token
+	 * @returns {string|null}
+	 */
+	#matchKnownFlagKey(token) {
+		for (const [key, valueArray] of Object.entries(this.cliFlags)) {
+			if (valueArray.includes(token)) {
+				return key;
+			}
+		}
+		return null;
 	}
 
 	/**
