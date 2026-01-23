@@ -31,12 +31,73 @@
 // 1.1 - ensure output folder can be written to
 // - `./documentation/lighthouse/reports/`
 // -- need file system
+// 1.2 - parse argv[n] flags
+//
 
 import fs from 'node:fs';
 import path from 'path';
 import process from 'node:process';
 
 const DEFAULT_URL = 'https://example.com';
+
+import { ArgParser } from './argParser.js';
+
+/**
+ *
+ * @param {string} arg
+ * @returns {FlagKey|null}
+ */
+function matchArg(arg) {
+	for (const [key, val] of Object.entries(CLI_FLAGS)) {
+		if (val.includes(arg)) {
+			// Cast to keep TS happy
+			const flagKey = /** @type {FlagKey} */ (key);
+			return flagKey;
+		}
+	}
+	return null;
+}
+
+// /**
+//  *
+//  * @param {FlagKey} key
+//  * @param {FlagValue} args
+//  */
+// function executeArg(key, args) {
+// 	const entry = CLI_ARGS_MAP[key];
+// 	const { handler, meta } = entry;
+
+// 	if (meta?.takesNextValue) {
+// 		handler(args[i + 1]);
+// 	}
+// }
+
+// /**
+//  *
+//  * @param {FlagValue} arg
+//  */
+// function deriveArgType(arg) {
+// 	if (typeof arg === 'boolean') {
+// 		handleBoolean(arg);
+// 	}
+// }
+
+/**
+ *
+ * @param {string[]} args
+ */
+function parseArgv(args) {
+	for (let i = 0; i < args.length; i++) {
+		const key = matchArg(args[i]);
+		if (key) {
+			const handler = CLI_ARGS_MAP[key].handler;
+			const nextValue = args[i + 1];
+
+			handler(nextValue);
+			i++;
+		}
+	}
+}
 
 /**
  *

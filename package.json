@@ -4,7 +4,7 @@
   "description": "StudyStack is a community-powered study resource library where users can create, browse, and discover learning materials shared by other students. Resources are organised by subject and type, making it easy to find relevant content quickly. Authenticated users can manage their own resources and participate in discussion via comments.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "lighthouse": "node ./scripts/nodeLighthouse.js"
   },
   "repository": {
@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/yenmangu/ci-ms-3-studystack#readme",
   "devDependencies": {
-    "@types/bootstrap": "^5.2.10"
+    "@types/bootstrap": "^5.2.10",
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0"
   },
   "dependencies": {
     "chrome-launcher": "^1.2.1",

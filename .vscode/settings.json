@@ -1,3 +1,4 @@
+// Workspace Settings
 {
 	"editor.fontFamily": "SF Mono",
 	"files.autoSave": "off",
@@ -17,6 +18,13 @@
 	},
 	"javascript.preferences.importModuleSpecifier": "relative",
 	"javascript.preferences.importModuleSpecifierEnding": "js",
+	// "jest.jestCommandLine": "node --experimental-vm-modules ./node_modules/.bin/jest",
+	// "jest.rootPath": "${workspaceFolder}",
+	// "jest.runMode": "on-demand",
+	// "jest.enable": true,
+	// "jest.shell": "/bin/zsh",
+
+	/* ------------------ Python ------------------ */
 	"python-envs.pythonProjects": [
 		{
 			"envManager": "ms-python.python:venv",
@@ -25,15 +33,14 @@
 		}
 	],
 	"python.envFile": "${workspaceFolder}/.env",
+	"python.REPL.enableREPLSmartSend": false,
 	"python.REPL.sendToNativeREPL": true,
 	"python.terminal.useEnvFile": true,
-
 	"python.testing.autoTestDiscoverOnSaveEnabled": true,
 	"python.testing.autoTestDiscoverOnSavePattern": "**/*.py",
 	"python.testing.cwd": "${workspaceFolder}",
 	"python.testing.pytestArgs": ["."],
 	"python.testing.pytestEnabled": false,
-	"python.testing.unittestEnabled": true,
 	"python.testing.unittestArgs": [
 		// "-v",
 		// "-s",
@@ -41,9 +48,9 @@
 		// "-p",
 		// "*test*.py"
 	],
+	"python.testing.unittestEnabled": true,
 	/* ----------------- workbench ---------------- */
 	"terminal.integrated.gpuAcceleration": "auto",
 	"typescript.disableAutomaticTypeAcquisition": true,
-	"workbench.colorTheme": "Ayu Mirage Bordered",
-	"python.REPL.enableREPLSmartSend": false
+	"workbench.colorTheme": "Ayu Mirage Bordered"
 }

@@ -1,4 +1,4 @@
-const CLI_FLAGS = {
+export const CLI_FLAGS = {
 	output: ['-o', '--output'],
 	readFile: ['-r', '--read-file'],
 	quick: ['-q', '--quick']
@@ -39,7 +39,7 @@ const CLI_FLAGS = {
 /**
  * @type {CliArgsMap}
  */
-const CLI_ARGS_MAP = {
+export const CLI_ARGS_MAP = {
 	output: {
 		/**
 		 *
@@ -124,6 +124,21 @@ export class ArgParser {
 	 * - Ensure short and verbose flags are matched correctly
 	 * - Don't mutate options yet
 	 *
+	 * P3: Value comsumption
+	 * Intention:
+	 * Produce a trusted options object
+	 * set boolean flags (-q --quick) to true
+	 * no consumable values sitting in positionals
+	 *
+	 * Caveats:
+	 * - missing values from flags should not silently crash -
+	 * -- return a meaningful error message
+	 * --- add errors to an error list, and display appropriately
+	 *
+	 * - Next token looks like a flag:
+	 * -- treat as missing value - a flag should not consume another flag
+	 *
+	 * Changes to existing: handlers return value, not undefined.
 	 *
 	 *
 	 * @param {string[]} argv
@@ -152,9 +167,11 @@ export class ArgParser {
 				positionals.push(token);
 			} else {
 				const matchedFlagKey = this.#matchKnownFlagKey(token);
+				console.log('matchedFlagKey: ', matchedFlagKey);
 
 				if (matchedFlagKey) {
 					knownFlags.push(matchedFlagKey);
+					unknowns.push(token);
 				} else {
 					unknowns.push(token);
 				}
@@ -186,11 +203,13 @@ export class ArgParser {
 	#buildAliasIndex(cliFlags) {
 		const aliasToKey = new Map();
 
-		for (const [key, alias] of Object.entries(cliFlags)) {
-			if (aliasToKey.has(alias)) {
-				throw new Error(`Duplicate flag alias registered: ${alias}`);
+		for (const [key, aliases] of Object.entries(cliFlags)) {
+			for (const alias of aliases) {
+				if (aliasToKey.has(alias)) {
+					throw new Error(`Duplicate flag alias registered: ${alias}`);
+				}
+				aliasToKey.set(alias, key);
 			}
-			aliasToKey.set(alias, key);
 		}
 
 		return aliasToKey;
@@ -206,11 +225,11 @@ export class ArgParser {
 	}
 
 	/**
-	 *
+	 * Does the token look like a flag syntactically
 	 * @param {string} token
 	 * @returns {boolean}
 	 */
 	#looksLikeFlag(token) {
-		return token.startsWith('-') && this.aliasToKey.has(token);
+		return token.startsWith('-');
 	}
 }
