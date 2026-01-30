@@ -1,4 +1,19 @@
 /**
+ * P2a
+ *
+ * Add deterministic output paths.
+ * - decide output folder policy
+ * - timestamping
+ * write one HTML report file
+ * write one JSON report file
+ *
+ * Caveats
+ * - keep the reporter pure (input in - output path out)
+ * - do not introduce file writing logic
+ * - ensure consistent file naming
+ */
+
+/**
  * @typedef {Object} OutputPaths
  * @property {string} outputDir
  * @property {string} htmlPath
